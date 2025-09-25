@@ -1,10 +1,10 @@
-// Package constant defines constant values used throughout the application.
+// Package constants defines constants values used throughout the application.
 //
 // It includes the definition of the `AppMode` type and constants for different
 // application modes such as production, development, and test. Additionally,
 // this package defines constants for common HTTP header fields and content types.
 
-package constant
+package constants
 
 // AppMode represents the mode in which the application is running.
 // It can be one of "production", "development", or "test".

@@ -1,4 +1,4 @@
-package router
+package routers
 
 import (
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
