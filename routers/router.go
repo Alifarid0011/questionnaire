@@ -10,5 +10,6 @@ func SetupRouter(app *wire.App) *gin.Engine {
 	r := app.Engine
 	r.Use(middleware.CORSMiddleware())
 	RegisterSwaggerRoutes(r)
+	RegisterAclRoutes(r, app)
 	return r
 }

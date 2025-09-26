@@ -7,17 +7,32 @@
 package wire
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/controller"
+	"github.com/Alifarid0011/questionnaire-back-end/internal/repository"
+	"github.com/Alifarid0011/questionnaire-back-end/internal/service"
 	"github.com/Alifarid0011/questionnaire-back-end/wire/provider"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // Injectors from wire.go:
 
 // InitializeApp initializes the application with all its dependencies.
 func InitializeApp() (*App, error) {
-	engine := provider.ProvideRouterEngine()
+	client := provider.MongoClient()
+	enforcer := provider.CasbinEnforcer(client)
+	engine := provider.RouterEngine()
+	casbinRepository := provider.CasbinRepository(enforcer, client)
+	casbinService := provider.CasbinService(casbinRepository)
+	casbinController := provider.CasbinController(casbinService)
 	app := &App{
-		Engine: engine,
+		Enforcer:      enforcer,
+		Mongo:         client,
+		Engine:        engine,
+		CasbinRepo:    casbinRepository,
+		CasbinCtrl:    casbinController,
+		CasbinService: casbinService,
 	}
 	return app, nil
 }
@@ -25,5 +40,11 @@ func InitializeApp() (*App, error) {
 // wire.go:
 
 type App struct {
-	Engine *gin.Engine
+	Enforcer *casbin.Enforcer
+	Mongo    *mongo.Client
+	Engine   *gin.Engine
+	// Casbin/ACL
+	CasbinRepo    repository.CasbinRepository
+	CasbinCtrl    controller.CasbinController
+	CasbinService service.CasbinService
 }
