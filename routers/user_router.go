@@ -1,4 +1,4 @@
-package router
+package routers
 
 import (
 	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
@@ -9,12 +9,12 @@ import (
 func RegisterUserRoutes(r *gin.Engine, app *wire.App) {
 	userRouter := r.Group("/users")
 	{
-		userRouter.POST("", app.UserCtrl.Create)
-		userRouter.GET("", middleware.PaginationMiddleware(), app.UserCtrl.GetAll)
+		userRouter.POST("", app.UserCtrl.CreateUser)
+		userRouter.GET("", middleware.PaginationMiddleware(), app.UserCtrl.GetAllUsers)
 		userRouter.GET("/me", app.UserCtrl.Me)
-		userRouter.GET("/uid/:uid", app.UserCtrl.FindByUID)
+		userRouter.GET("/uid/:uid", app.UserCtrl.FindUserByUID)
 		userRouter.GET("/username/:username", app.UserCtrl.FindByUsername)
-		userRouter.PUT("/:uid", app.UserCtrl.Update)
-		userRouter.DELETE("/:uid", app.UserCtrl.Delete)
+		userRouter.PUT("/:uid", app.UserCtrl.UpdateUser)
+		userRouter.DELETE("/:uid", app.UserCtrl.DeleteUser)
 	}
 }
