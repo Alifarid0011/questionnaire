@@ -26,6 +26,10 @@ func InitializeApp() (*App, error) {
 	casbinRepository := provider.CasbinRepository(enforcer, client)
 	casbinService := provider.CasbinService(casbinRepository)
 	casbinController := provider.CasbinController(casbinService)
+	database := provider.Database(client)
+	userRepository := provider.UserRepository(database)
+	userService := provider.UserService(userRepository, casbinRepository)
+	userController := provider.UserController(userService, casbinService)
 	app := &App{
 		Enforcer:      enforcer,
 		Mongo:         client,
@@ -33,6 +37,9 @@ func InitializeApp() (*App, error) {
 		CasbinRepo:    casbinRepository,
 		CasbinCtrl:    casbinController,
 		CasbinService: casbinService,
+		UserCtrl:      userController,
+		UserService:   userService,
+		UserRepo:      userRepository,
 	}
 	return app, nil
 }
@@ -47,4 +54,8 @@ type App struct {
 	CasbinRepo    repository.CasbinRepository
 	CasbinCtrl    controller.CasbinController
 	CasbinService service.CasbinService
+	// User
+	UserCtrl    controller.UserController
+	UserService service.UserService
+	UserRepo    repository.UserRepository
 }

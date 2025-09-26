@@ -22,18 +22,28 @@ type App struct {
 	CasbinRepo    repository.CasbinRepository
 	CasbinCtrl    controller.CasbinController
 	CasbinService service.CasbinService
+	// User
+	UserCtrl    controller.UserController
+	UserService service.UserService
+	UserRepo    repository.UserRepository
 }
 
 // InitializeApp initializes the application with all its dependencies.
 func InitializeApp() (*App, error) {
 	wire.Build(
+		//Mongo
+		provider.MongoClient,
+		provider.Database,
 		provider.RouterEngine,
 		// Casbin/ACL
 		provider.CasbinController,
 		provider.CasbinService,
 		provider.CasbinRepository,
-		provider.MongoClient,
 		provider.CasbinEnforcer,
+		// User
+		provider.UserController,
+		provider.UserService,
+		provider.UserRepository,
 		wire.Struct(new(App),
 			"*"))
 	return &App{}, nil

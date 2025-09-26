@@ -15,3 +15,6 @@ func MongoClient() *mongo.Client {
 	Uri := fmt.Sprintf(strings.TrimRight(BaseUri, ",")+"/%s?authSource="+config.Get.Mongo.AuthSource, config.Get.Mongo.DbName)
 	return config.InitMongoClient(Uri)
 }
+func Database(client *mongo.Client) *mongo.Database {
+	return client.Database(config.Get.Mongo.DbName)
+}
