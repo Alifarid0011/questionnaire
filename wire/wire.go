@@ -7,6 +7,7 @@ import (
 	"github.com/Alifarid0011/questionnaire-back-end/internal/controller"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/repository"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/service"
+	"github.com/Alifarid0011/questionnaire-back-end/utils"
 	"github.com/Alifarid0011/questionnaire-back-end/wire/provider"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
@@ -15,9 +16,16 @@ import (
 )
 
 type App struct {
-	Enforcer *casbin.Enforcer
-	Mongo    *mongo.Client
-	Engine   *gin.Engine
+	// Core Components
+	TokenManager  utils.JwtToken
+	BlackListRepo repository.BlackListTokenRepository
+	RouterCtr     controller.RouteController
+	// Auth
+	AuthCtrl         controller.AuthController
+	RefreshTokenRepo repository.RefreshTokenRepository
+	Enforcer         *casbin.Enforcer
+	Mongo            *mongo.Client
+	Engine           *gin.Engine
 	// Casbin/ACL
 	CasbinRepo    repository.CasbinRepository
 	CasbinCtrl    controller.CasbinController
@@ -29,7 +37,7 @@ type App struct {
 }
 
 // InitializeApp initializes the application with all its dependencies.
-func InitializeApp() (*App, error) {
+func InitializeApp(secret string) (*App, error) {
 	wire.Build(
 		//Mongo
 		provider.MongoClient,
@@ -44,6 +52,13 @@ func InitializeApp() (*App, error) {
 		provider.UserController,
 		provider.UserService,
 		provider.UserRepository,
+		// Auth
+		provider.AuthController,
+		provider.AuthService,
+		provider.JWT,
+		provider.BlackListRepository,
+		provider.RefreshTokenRepository,
+		provider.RouterController,
 		wire.Struct(new(App),
 			"*"))
 	return &App{}, nil

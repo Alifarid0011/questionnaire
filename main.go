@@ -20,7 +20,7 @@ func init() {
 // @in header
 // @name Authorization
 func main() {
-	app, errInitializeApp := wire.InitializeApp()
+	app, errInitializeApp := wire.InitializeApp(config.Get.Token.SecretKey)
 	if errInitializeApp != nil {
 		log.Fatalf("Failed to initialize app: %v", errInitializeApp)
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/Alifarid0011/questionnaire-back-end/internal/controller"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/repository"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/service"
+	"github.com/Alifarid0011/questionnaire-back-end/utils"
 	"github.com/Alifarid0011/questionnaire-back-end/wire/provider"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
@@ -19,27 +20,38 @@ import (
 // Injectors from wire.go:
 
 // InitializeApp initializes the application with all its dependencies.
-func InitializeApp() (*App, error) {
+func InitializeApp(secret string) (*App, error) {
+	jwtToken := provider.JWT(secret)
 	client := provider.MongoClient()
-	enforcer := provider.CasbinEnforcer(client)
+	database := provider.Database(client)
+	blackListTokenRepository := provider.BlackListRepository(database)
 	engine := provider.RouterEngine()
+	routeController := provider.RouterController(engine)
+	userRepository := provider.UserRepository(database)
+	refreshTokenRepository := provider.RefreshTokenRepository(database)
+	enforcer := provider.CasbinEnforcer(client)
 	casbinRepository := provider.CasbinRepository(enforcer, client)
+	authService := provider.AuthService(userRepository, refreshTokenRepository, jwtToken, blackListTokenRepository, casbinRepository)
+	userService := provider.UserService(userRepository, casbinRepository)
+	authController := provider.AuthController(authService, userService)
 	casbinService := provider.CasbinService(casbinRepository)
 	casbinController := provider.CasbinController(casbinService)
-	database := provider.Database(client)
-	userRepository := provider.UserRepository(database)
-	userService := provider.UserService(userRepository, casbinRepository)
 	userController := provider.UserController(userService, casbinService)
 	app := &App{
-		Enforcer:      enforcer,
-		Mongo:         client,
-		Engine:        engine,
-		CasbinRepo:    casbinRepository,
-		CasbinCtrl:    casbinController,
-		CasbinService: casbinService,
-		UserCtrl:      userController,
-		UserService:   userService,
-		UserRepo:      userRepository,
+		TokenManager:     jwtToken,
+		BlackListRepo:    blackListTokenRepository,
+		RouterCtr:        routeController,
+		AuthCtrl:         authController,
+		RefreshTokenRepo: refreshTokenRepository,
+		Enforcer:         enforcer,
+		Mongo:            client,
+		Engine:           engine,
+		CasbinRepo:       casbinRepository,
+		CasbinCtrl:       casbinController,
+		CasbinService:    casbinService,
+		UserCtrl:         userController,
+		UserService:      userService,
+		UserRepo:         userRepository,
 	}
 	return app, nil
 }
@@ -47,9 +59,16 @@ func InitializeApp() (*App, error) {
 // wire.go:
 
 type App struct {
-	Enforcer *casbin.Enforcer
-	Mongo    *mongo.Client
-	Engine   *gin.Engine
+	// Core Components
+	TokenManager  utils.JwtToken
+	BlackListRepo repository.BlackListTokenRepository
+	RouterCtr     controller.RouteController
+	// Auth
+	AuthCtrl         controller.AuthController
+	RefreshTokenRepo repository.RefreshTokenRepository
+	Enforcer         *casbin.Enforcer
+	Mongo            *mongo.Client
+	Engine           *gin.Engine
 	// Casbin/ACL
 	CasbinRepo    repository.CasbinRepository
 	CasbinCtrl    controller.CasbinController
