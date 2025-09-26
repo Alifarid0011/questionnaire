@@ -1,0 +1,338 @@
+definitions:
+  dto.CheckPermissionDTO:
+    properties:
+      act:
+        description: GET, POST, PUT, DELETE
+        type: string
+      allow_or_deny:
+        enum:
+        - allow
+        - deny
+        type: string
+      obj:
+        description: /user/all or /user/:id
+        type: string
+      sub:
+        description: role or user_uid
+        type: string
+    required:
+    - act
+    - allow_or_deny
+    - obj
+    - sub
+    type: object
+  dto.GroupingDTO:
+    properties:
+      child:
+        type: string
+      parent:
+        type: string
+    required:
+    - child
+    - parent
+    type: object
+  response.Meta:
+    properties:
+      code:
+        type: integer
+      extra:
+        additionalProperties: true
+        description: For additional metadata
+        type: object
+      message:
+        type: string
+      message_id:
+        description: For i18n
+        type: string
+      pagination: {}
+      success:
+        type: boolean
+      trace_id:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      errors: {}
+      meta:
+        $ref: '#/definitions/response.Meta'
+    type: object
+info:
+  contact: {}
+  description: This is a sample API for demonstrating Swagger with Bearer Authentication
+    in Go using Gin
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /acl/check:
+    get:
+      consumes:
+      - application/json
+      description: Checks whether the user is allowed to perform a specific action
+        on a resource.
+      parameters:
+      - description: Permission check information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CheckPermissionDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Check Permission
+      tags:
+      - ACL
+  /acl/permissions:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all policies (p) and grouping policies (g, g2) stored
+        in Casbin.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Get All Casbin Data
+      tags:
+      - ACL
+  /acl/policies:
+    delete:
+      consumes:
+      - application/json
+      description: Removes the specified permission policy for the user/group.
+      parameters:
+      - description: Policy information for removal
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CheckPermissionDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Remove Policy
+      tags:
+      - ACL
+    post:
+      consumes:
+      - application/json
+      description: Adds a policy for a user/group to perform an action on a resource.
+      parameters:
+      - description: Policy information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CheckPermissionDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Add Policy
+      tags:
+      - ACL
+  /acl/policies/{sub}/permissions:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves hierarchical permissions based on user ID or role (subject).
+      parameters:
+      - description: User ID or Role (subject)
+        in: path
+        name: sub
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Subject Permission Tree
+      tags:
+      - ACL
+  /acl/policy_group:
+    delete:
+      consumes:
+      - application/json
+      description: Removes the link between one role/group and another role/group.
+      parameters:
+      - description: Grouping information for removal
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GroupingDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Remove Grouping Policy (g)
+      tags:
+      - ACL
+    post:
+      consumes:
+      - application/json
+      description: Assigns one role or group to another role/group (g grouping).
+      parameters:
+      - description: Grouping information
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GroupingDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Add Grouping Policy (g)
+      tags:
+      - ACL
+  /acl/roles:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint returns all roles defined as v0 in policies (excluding
+        those that are ObjectID).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Roles List
+      tags:
+      - ACL
+  /acl/user_roles:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all roles assigned to the given user ID.
+      parameters:
+      - description: user_uid
+        example: 64b2fa75e7d1f4a739fa2a11
+        in: query
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
+      summary: Get User Roles
+      tags:
+      - ACL
+securityDefinitions:
+  AuthBearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

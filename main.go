@@ -12,6 +12,13 @@ import (
 func init() {
 	config.ExposeConfig(os.Getenv("APP_ENV"))
 }
+
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample API for demonstrating Swagger with Bearer Authentication in Go using Gin
+// @securityDefinitions.apikey AuthBearer
+// @in header
+// @name Authorization
 func main() {
 	app, errInitializeApp := wire.InitializeApp()
 	if errInitializeApp != nil {
