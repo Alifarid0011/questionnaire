@@ -2,7 +2,7 @@ package config
 
 import (
 	"errors"
-	"github.com/Alifarid0011/questionnaire-back-end/constants"
+	"github.com/Alifarid0011/questionnaire-back-end/constant"
 	"github.com/spf13/viper"
 	"golang.org/x/time/rate"
 	"log"
@@ -79,7 +79,7 @@ var Get *Config
 
 // ExposeConfig loads and parses the configuration file based on the app mode (production, development, or test),
 // and returns the global Config object. If the configuration is already loaded, it returns the existing instance.
-func ExposeConfig(AppMode constants.AppMode) *Config {
+func ExposeConfig(AppMode constant.AppMode) *Config {
 	if Get == nil {
 		cfgPath := getConfigPath(AppMode)
 		v, err := LoadConfig(cfgPath, "yml")
@@ -128,15 +128,15 @@ func LoadConfig(filename string, fileType string) (*viper.Viper, error) {
 
 // getConfigPath determines the path of the configuration file based on the application's mode (production, development, test).
 // It returns the appropriate path for the config file.
-func getConfigPath(mode constants.AppMode) string {
+func getConfigPath(mode constant.AppMode) string {
 	switch mode {
-	case constants.App.Production:
-		return constants.Path.ProductionConfig
-	case constants.App.Development:
-		return constants.Path.DevelopmentConfig
-	case constants.App.Test:
-		return constants.Path.TestConfig
+	case constant.App.Production:
+		return constant.Path.ProductionConfig
+	case constant.App.Development:
+		return constant.Path.DevelopmentConfig
+	case constant.App.Test:
+		return constant.Path.TestConfig
 	default:
-		return constants.Path.DevelopmentConfig
+		return constant.Path.DevelopmentConfig
 	}
 }

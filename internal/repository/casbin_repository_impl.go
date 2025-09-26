@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/Alifarid0011/questionnaire-back-end/constants"
+	"github.com/Alifarid0011/questionnaire-back-end/constant"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/models"
 	"github.com/casbin/casbin/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -17,23 +17,23 @@ type casbinRepository struct {
 }
 
 func NewCasbinRepository(enforcer *casbin.Enforcer, db *mongo.Database) CasbinRepository {
-	return &casbinRepository{enforcer: enforcer, collection: db.Collection(constants.CasbinRule)}
+	return &casbinRepository{enforcer: enforcer, collection: db.Collection(constant.CasbinRule)}
 }
 
-func (r *casbinRepository) Enforce(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error) {
-	return r.enforcer.Enforce(sub, obj, act, attr, AllowOrDeny, entity)
+func (r *casbinRepository) Enforce(sub, obj, act, AllowOrDeny string) (bool, error) {
+	return r.enforcer.Enforce(sub, obj, act, AllowOrDeny)
 }
 
-func (r *casbinRepository) AddPolicy(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error) {
-	added, err := r.enforcer.AddPolicy(sub, obj, act, attr, AllowOrDeny, entity)
+func (r *casbinRepository) AddPolicy(sub, obj, act, AllowOrDeny string) (bool, error) {
+	added, err := r.enforcer.AddPolicy(sub, obj, act, AllowOrDeny)
 	if err == nil && added {
 		_ = r.enforcer.SavePolicy()
 	}
 	return added, err
 }
 
-func (r *casbinRepository) RemovePolicy(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error) {
-	removed, err := r.enforcer.RemovePolicy(sub, obj, act, attr, AllowOrDeny, entity)
+func (r *casbinRepository) RemovePolicy(sub, obj, act, AllowOrDeny string) (bool, error) {
+	removed, err := r.enforcer.RemovePolicy(sub, obj, act, AllowOrDeny)
 	if err == nil && removed {
 		_ = r.enforcer.SavePolicy()
 	}

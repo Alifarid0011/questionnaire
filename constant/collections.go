@@ -1,4 +1,4 @@
-package constants
+package constant
 
 const (
 	CasbinRule = "casbin_rule"

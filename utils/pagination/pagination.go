@@ -2,7 +2,7 @@ package pagination
 
 import (
 	"context"
-	"github.com/Alifarid0011/questionnaire-back-end/constants"
+	"github.com/Alifarid0011/questionnaire-back-end/constant"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,6 +15,6 @@ type Pagination interface {
 }
 
 func FromContext(ctx context.Context) (Pagination, bool) {
-	p, ok := ctx.Value(constants.PaginatorCtxKey).(Pagination)
+	p, ok := ctx.Value(constant.PaginatorCtxKey).(Pagination)
 	return p, ok
 }

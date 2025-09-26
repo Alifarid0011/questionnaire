@@ -1,10 +1,10 @@
-// Package constants defines constants values used throughout the application.
+// Package constant defines constant values used throughout the application.
 //
-// It includes the definition of the `AppMode` type and constants for different
+// It includes the definition of the `AppMode` type and constant for different
 // application modes such as production, development, and test. Additionally,
-// this package defines constants for common HTTP header fields and content types.
+// this package defines constant for common HTTP header fields and content types.
 
-package constants
+package constant
 
 // AppMode represents the mode in which the application is running.
 // It can be one of "production", "development", or "test".
@@ -18,7 +18,7 @@ const (
 )
 
 // app holds the values for different application modes, enabling easy access
-// to these constants across the application.
+// to these constant across the application.
 type app struct {
 	Production  AppMode
 	Development AppMode

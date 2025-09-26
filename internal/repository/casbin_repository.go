@@ -6,9 +6,9 @@ import (
 )
 
 type CasbinRepository interface {
-	Enforce(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
-	AddPolicy(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
-	RemovePolicy(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
+	Enforce(sub, obj, act, AllowOrDeny string) (bool, error)
+	AddPolicy(sub, obj, act, AllowOrDeny string) (bool, error)
+	RemovePolicy(sub, obj, act, AllowOrDeny string) (bool, error)
 	GetPolicies() ([]models.CasbinPolicy, error)
 	AddGroupingPolicy(child, parent string) (bool, error)
 	RemoveGroupingPolicy(child, parent string) (bool, error)

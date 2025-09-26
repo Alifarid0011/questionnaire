@@ -1,8 +1,8 @@
-package middlewares
+package middleware
 
 import (
 	"errors"
-	"github.com/Alifarid0011/questionnaire-back-end/constants"
+	"github.com/Alifarid0011/questionnaire-back-end/constant"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/dto/response"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
@@ -40,7 +40,7 @@ func CasbinMiddleware(enforcer *casbin.Enforcer) gin.HandlerFunc {
 				Dispatch()
 			return
 		}
-		c.Set(constants.ContextRolesKey, roles)
+		c.Set(constant.ContextRolesKey, roles)
 		c.Next()
 	}
 }

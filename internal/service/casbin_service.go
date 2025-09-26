@@ -6,9 +6,9 @@ import (
 )
 
 type CasbinService interface {
-	IsAllowed(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
-	GrantPermission(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
-	RevokePermission(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error)
+	IsAllowed(sub, obj, act, AllowOrDeny string) (bool, error)
+	GrantPermission(sub, obj, act, AllowOrDeny string) (bool, error)
+	RevokePermission(sub, obj, act, AllowOrDeny string) (bool, error)
 	ListPermissions() ([]models.CasbinPolicy, error)
 	AddGrouping(parent string, child string) error
 	GetAllCasbinData() (map[string]interface{}, error)

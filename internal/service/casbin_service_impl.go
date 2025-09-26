@@ -38,16 +38,16 @@ func (s *CasbinServiceImpl) RemoveGrouping(parent string, child string) error {
 	return nil
 }
 
-func (s *CasbinServiceImpl) IsAllowed(sub, act, obj, attr, AllowOrDeny, entity string) (bool, error) {
-	return s.repo.Enforce(sub, obj, act, attr, AllowOrDeny, entity)
+func (s *CasbinServiceImpl) IsAllowed(sub, act, obj, AllowOrDeny string) (bool, error) {
+	return s.repo.Enforce(sub, obj, act, AllowOrDeny)
 }
 
-func (s *CasbinServiceImpl) GrantPermission(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error) {
-	return s.repo.AddPolicy(sub, obj, act, attr, AllowOrDeny, entity)
+func (s *CasbinServiceImpl) GrantPermission(sub, obj, act, AllowOrDeny string) (bool, error) {
+	return s.repo.AddPolicy(sub, obj, act, AllowOrDeny)
 }
 
-func (s *CasbinServiceImpl) RevokePermission(sub, obj, act, attr, AllowOrDeny, entity string) (bool, error) {
-	return s.repo.RemovePolicy(sub, obj, act, attr, AllowOrDeny, entity)
+func (s *CasbinServiceImpl) RevokePermission(sub, obj, act, AllowOrDeny string) (bool, error) {
+	return s.repo.RemovePolicy(sub, obj, act, AllowOrDeny)
 }
 func (s *CasbinServiceImpl) GetAllCasbinData() (map[string]interface{}, error) {
 	policies, err := s.repo.GetPolicies()
