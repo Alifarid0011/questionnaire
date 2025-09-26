@@ -3,12 +3,14 @@ module github.com/Alifarid0011/questionnaire-back-end
 go 1.24.2
 
 require (
+	github.com/avct/uasurfer v0.0.0-20250915105040-a942f6fb6edc
 	github.com/casbin/casbin/v2 v2.127.0
 	github.com/casbin/mongodb-adapter/v3 v3.7.0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
 	github.com/go-playground/validator/v10 v10.27.0
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.7.0
 	github.com/spf13/viper v1.21.0
@@ -16,6 +18,7 @@ require (
 	github.com/swaggo/gin-swagger v1.6.1
 	github.com/swaggo/swag v1.16.6
 	go.mongodb.org/mongo-driver v1.17.4
+	golang.org/x/crypto v0.42.0
 	golang.org/x/time v0.13.0
 )
 
@@ -75,7 +78,6 @@ require (
 	go.uber.org/mock v0.5.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/arch v0.20.0 // indirect
-	golang.org/x/crypto v0.42.0 // indirect
 	golang.org/x/mod v0.27.0 // indirect
 	golang.org/x/net v0.43.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
