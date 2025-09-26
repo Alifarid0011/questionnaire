@@ -15,11 +15,10 @@ type Jwt struct {
 func NewJwtToken(secret string) JwtToken {
 	return &Jwt{secretKey: secret}
 }
-func (j *Jwt) GenerateAccessToken(expiry int64, uid primitive.ObjectID, AttrMap AttributeMap) (string, error) {
+func (j *Jwt) GenerateAccessToken(expiry int64, uid primitive.ObjectID) (string, error) {
 	claims := CustomClaims{
 		UID:       uid.Hex(),
 		TokenType: constant.AccessToken,
-		AttrMap:   AttrMap,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Unix(expiry, 0)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
