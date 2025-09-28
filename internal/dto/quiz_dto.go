@@ -1,13 +1,17 @@
 package dto
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
 
-type CreateQuizDTO struct {
+type QuizDTO struct {
 	Title     string             `json:"title" binding:"required"`
 	Category  string             `json:"category" binding:"required"`
 	Level     string             `json:"level" binding:"required"`
 	UserID    primitive.ObjectID `json:"user_id" binding:"required"`
 	Questions []QuestionDTO      `json:"questions" binding:"required,dive"`
+	CreatedAt time.Time          `json:"created_at" bson:"created_at"`
 }
 
 type UpdateQuizDTO struct {
