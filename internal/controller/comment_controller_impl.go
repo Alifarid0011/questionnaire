@@ -12,7 +12,7 @@ type CommentControllerImpl struct {
 	service service.CommentService
 }
 
-func NewCommentControllerImpl(s service.CommentService) *CommentControllerImpl {
+func NewCommentController(s service.CommentService) *CommentControllerImpl {
 	return &CommentControllerImpl{service: s}
 }
 
