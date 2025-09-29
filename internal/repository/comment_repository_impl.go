@@ -14,24 +14,28 @@ type commentRepositoryImpl struct {
 	collection *mongo.Collection
 }
 
+// NewCommentRepository creates a new comment repository
 func NewCommentRepository(db *mongo.Database) CommentRepository {
 	return &commentRepositoryImpl{
 		collection: db.Collection("comments"),
 	}
 }
 
+// Create inserts a new comment
 func (r *commentRepositoryImpl) Create(ctx context.Context, comment *models.Comment) error {
 	comment.CreatedAt = time.Now()
 	_, err := r.collection.InsertOne(ctx, comment)
 	return err
 }
 
+// Update modifies an existing comment
 func (r *commentRepositoryImpl) Update(ctx context.Context, comment *models.Comment) error {
 	comment.UpdatedAt = time.Now()
 	_, err := r.collection.UpdateOne(ctx, bson.M{"_id": comment.ID}, bson.M{"$set": comment})
 	return err
 }
 
+// FindByID retrieves a comment by its ID
 func (r *commentRepositoryImpl) FindByID(ctx context.Context, id primitive.ObjectID) (*models.Comment, error) {
 	var comment models.Comment
 	err := r.collection.FindOne(ctx, bson.M{"_id": id}).Decode(&comment)
@@ -41,8 +45,13 @@ func (r *commentRepositoryImpl) FindByID(ctx context.Context, id primitive.Objec
 	return &comment, nil
 }
 
-func (r *commentRepositoryImpl) FindByQuestionID(ctx context.Context, questionID primitive.ObjectID) ([]*models.Comment, error) {
-	cursor, err := r.collection.Find(ctx, bson.M{"question_id": questionID})
+// FindByTarget retrieves comments by polymorphic target (DBRef)
+func (r *commentRepositoryImpl) FindByTarget(ctx context.Context, target models.DBRef) ([]*models.Comment, error) {
+	filter := bson.M{
+		"target.$ref": target.Ref,
+		"target.$id":  target.ID,
+	}
+	cursor, err := r.collection.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -55,6 +64,7 @@ func (r *commentRepositoryImpl) FindByQuestionID(ctx context.Context, questionID
 	return comments, nil
 }
 
+// FindByUserID retrieves comments by user
 func (r *commentRepositoryImpl) FindByUserID(ctx context.Context, userID primitive.ObjectID) ([]*models.Comment, error) {
 	cursor, err := r.collection.Find(ctx, bson.M{"user_id": userID})
 	if err != nil {
@@ -69,6 +79,7 @@ func (r *commentRepositoryImpl) FindByUserID(ctx context.Context, userID primiti
 	return comments, nil
 }
 
+// FindReplies retrieves comments that are replies to a parent comment
 func (r *commentRepositoryImpl) FindReplies(ctx context.Context, parentID primitive.ObjectID) ([]*models.Comment, error) {
 	cursor, err := r.collection.Find(ctx, bson.M{"parent_id": parentID})
 	if err != nil {
@@ -83,9 +94,11 @@ func (r *commentRepositoryImpl) FindReplies(ctx context.Context, parentID primit
 	return replies, nil
 }
 
+// EnsureIndexes creates indexes for faster queries
 func (r *commentRepositoryImpl) EnsureIndexes(ctx context.Context) error {
 	indexes := []mongo.IndexModel{
-		{Keys: bson.D{{Key: "question_id", Value: 1}}, Options: options.Index().SetName("idx_question_id")},
+		{Keys: bson.D{{Key: "target.$ref", Value: 1}}, Options: options.Index().SetName("idx_target_ref")},
+		{Keys: bson.D{{Key: "target.$id", Value: 1}}, Options: options.Index().SetName("idx_target_id")},
 		{Keys: bson.D{{Key: "user_id", Value: 1}}, Options: options.Index().SetName("idx_user_id")},
 		{Keys: bson.D{{Key: "parent_id", Value: 1}}, Options: options.Index().SetName("idx_parent_id")},
 	}
