@@ -54,6 +54,7 @@ func (r *userAnswerRepositoryImpl) UserAnswerFindByUserID(ctx context.Context, u
 		return nil, err
 	}
 	defer cursor.Close(ctx)
+
 	var answers []*models.UserAnswer
 	if err := cursor.All(ctx, &answers); err != nil {
 		return nil, err
@@ -76,9 +77,18 @@ func (r *userAnswerRepositoryImpl) UserAnswerFindByQuizIDAndUserID(ctx context.C
 
 func (r *userAnswerRepositoryImpl) UserAnswerEnsureIndexes(ctx context.Context) error {
 	indexes := []mongo.IndexModel{
-		{Keys: bson.D{{Key: "quiz_id", Value: 1}}, Options: options.Index().SetName("idx_quiz_id")},
-		{Keys: bson.D{{Key: "user_id", Value: 1}}, Options: options.Index().SetName("idx_user_id")},
-		{Keys: bson.D{{Key: "quiz_id", Value: 1}, {Key: "user_id", Value: 1}}, Options: options.Index().SetName("idx_quiz_user")},
+		{
+			Keys:    bson.D{{Key: "quiz_id", Value: 1}},
+			Options: options.Index().SetName("idx_quiz_id"),
+		},
+		{
+			Keys:    bson.D{{Key: "user_id", Value: 1}},
+			Options: options.Index().SetName("idx_user_id"),
+		},
+		{
+			Keys:    bson.D{{Key: "quiz_id", Value: 1}, {Key: "user_id", Value: 1}},
+			Options: options.Index().SetName("idx_quiz_user"),
+		},
 	}
 	_, err := r.collection.Indexes().CreateMany(ctx, indexes)
 	return err
