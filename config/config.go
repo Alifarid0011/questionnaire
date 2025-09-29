@@ -10,12 +10,15 @@ import (
 )
 
 type Config struct {
-	Redis       RedisConfig  // Redis cache configuration
-	Logger      LoggerConfig // Logger configuration
-	App         AppConfig    // Application general settings
-	Mongo       MongoConfig  // MongoDB configuration
-	RateLimiter RateLimitConfig
-	Token       TokenConfig
+	App                     AppConfig   // Application general settings
+	Mongo                   MongoConfig // MongoDB configuration
+	RateLimiter             RateLimitConfig
+	Token                   TokenConfig
+	SemanticAnswerValidator SemanticAnswerValidatorConfig
+}
+type SemanticAnswerValidatorConfig struct {
+	Url                 string `json:"url"`
+	CheckAnswerEndPoint string `json:"check_answer_end_point"`
 }
 type TokenConfig struct {
 	ExpiryAccessToken  time.Duration `json:"expiry_access_token"`
@@ -25,21 +28,6 @@ type TokenConfig struct {
 type RateLimitConfig struct {
 	Rate   rate.Limit
 	Bursts int
-}
-
-// RedisConfig holds the configuration for connecting to a Redis server,
-// including connection details, timeouts, and connection pooling.
-type RedisConfig struct {
-	Host               string        // Redis host
-	Port               string        // Redis port
-	Password           string        // Redis password
-	Db                 string        // Redis database
-	DialTimeout        time.Duration // Redis dial timeout
-	ReadTimeout        time.Duration // Redis read timeout
-	WriteTimeout       time.Duration // Redis write timeout
-	IdleCheckFrequency time.Duration // Redis idle check frequency
-	PoolSize           int           // Redis connection pool size
-	PoolTimeout        time.Duration // Redis pool timeout
 }
 
 // MongoConfig holds configuration settings for MongoDB connection,
@@ -62,15 +50,6 @@ type AppConfig struct {
 	Version string // Application version
 	Port    int    // Port to run the application
 	Host    string // Host of the application
-}
-
-// LoggerConfig contains the configuration for the application’s logger,
-// including the file path, encoding type, log level, and the logger name.
-type LoggerConfig struct {
-	FilePath string // Path to the log file
-	Encoding string // Log file encoding (e.g., "json")
-	Level    string // Log level (e.g., "debug", "info")
-	Logger   string // Logger name
 }
 
 // Get holds the global instance of the configuration.

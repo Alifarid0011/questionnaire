@@ -1,1 +1,29 @@
+app:
+  name: "questionnaire"
+  version: "1.0.0"
+  port: 8587
+  host: "localhost"
 
+mongo:
+  hosts:
+    - 127.0.0.1
+  username: "root"
+  password: "examplepassword"
+  port: "27017"
+  protocol: "mongodb"
+  DbName: "acl"
+  collection: "users"
+  AuthSource: "admin"
+
+rate_limiter:
+  rate: "10"
+  bursts: 5
+
+semantic_answer_validator:
+  url: http://127.0.0.1
+  checkAnswerEndPoint: /check_answer
+
+token:
+  expiryAccessToken: 9010
+  expiryRefreshToken: 10000
+  secretKey: "dsffiusdhifpohusd7u8erwty7gfuivjd"
