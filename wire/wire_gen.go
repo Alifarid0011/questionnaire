@@ -40,24 +40,30 @@ func InitializeApp(secret string) (*App, error) {
 	quizRepository := provider.QuizRepository(database)
 	quizService := provider.QuizService(quizRepository)
 	quizController := provider.QuizController(quizService)
+	userAnswerRepository := provider.UserAnswerRepository(database)
+	userAnswerService := provider.UserAnswerService(userAnswerRepository)
+	userAnswerController := provider.UserAnswerController(userAnswerService)
 	app := &App{
-		TokenManager:     jwtToken,
-		BlackListRepo:    blackListTokenRepository,
-		RouterCtr:        routeController,
-		AuthCtrl:         authController,
-		RefreshTokenRepo: refreshTokenRepository,
-		Enforcer:         enforcer,
-		Mongo:            client,
-		Engine:           engine,
-		CasbinRepo:       casbinRepository,
-		CasbinCtrl:       casbinController,
-		CasbinService:    casbinService,
-		UserCtrl:         userController,
-		UserService:      userService,
-		UserRepo:         userRepository,
-		QuizCtrl:         quizController,
-		QuizService:      quizService,
-		QuizRepo:         quizRepository,
+		TokenManager:      jwtToken,
+		BlackListRepo:     blackListTokenRepository,
+		RouterCtr:         routeController,
+		AuthCtrl:          authController,
+		RefreshTokenRepo:  refreshTokenRepository,
+		Enforcer:          enforcer,
+		Mongo:             client,
+		Engine:            engine,
+		CasbinRepo:        casbinRepository,
+		CasbinCtrl:        casbinController,
+		CasbinService:     casbinService,
+		UserCtrl:          userController,
+		UserService:       userService,
+		UserRepo:          userRepository,
+		QuizCtrl:          quizController,
+		QuizService:       quizService,
+		QuizRepo:          quizRepository,
+		UserAnswerCtrl:    userAnswerController,
+		UserAnswerService: userAnswerService,
+		UserAnswerRepo:    userAnswerRepository,
 	}
 	return app, nil
 }
@@ -87,4 +93,8 @@ type App struct {
 	QuizCtrl    controller.QuizController
 	QuizService service.QuizService
 	QuizRepo    repository.QuizRepository
+	//	user Answer
+	UserAnswerCtrl    controller.UserAnswerController
+	UserAnswerService service.UserAnswerService
+	UserAnswerRepo    repository.UserAnswerRepository
 }

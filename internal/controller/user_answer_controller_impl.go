@@ -8,12 +8,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type UserAnswerController struct {
+type UserAnswerControllerImpl struct {
 	service service.UserAnswerService
 }
 
-func NewUserAnswerController(s service.UserAnswerService) *UserAnswerController {
-	return &UserAnswerController{service: s}
+func NewUserAnswerController(s service.UserAnswerService) *UserAnswerControllerImpl {
+	return &UserAnswerControllerImpl{service: s}
 }
 
 // CreateUserAnswer godoc
@@ -27,7 +27,7 @@ func NewUserAnswerController(s service.UserAnswerService) *UserAnswerController 
 // @Failure 400 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /user-answers [post]
-func (uac *UserAnswerController) CreateUserAnswer(c *gin.Context) {
+func (uac *UserAnswerControllerImpl) CreateUserAnswer(c *gin.Context) {
 	var input dto.UserAnswerDTO
 	if err := c.ShouldBindJSON(&input); err != nil {
 		response.New(c).Errors(err).Dispatch()
@@ -51,7 +51,7 @@ func (uac *UserAnswerController) CreateUserAnswer(c *gin.Context) {
 // @Failure 400 {object} response.Response
 // @Failure 404 {object} response.Response
 // @Router /user-answers/{id} [get]
-func (uac *UserAnswerController) GetUserAnswerByID(c *gin.Context) {
+func (uac *UserAnswerControllerImpl) GetUserAnswerByID(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(idParam)
 	if err != nil {
@@ -76,7 +76,7 @@ func (uac *UserAnswerController) GetUserAnswerByID(c *gin.Context) {
 // @Failure 400 {object} response.Response
 // @Failure 404 {object} response.Response
 // @Router /user-answers/quiz/{quiz_id} [get]
-func (uac *UserAnswerController) GetUserAnswersByQuizID(c *gin.Context) {
+func (uac *UserAnswerControllerImpl) GetUserAnswersByQuizID(c *gin.Context) {
 	quizIDParam := c.Param("quiz_id")
 	quizID, err := primitive.ObjectIDFromHex(quizIDParam)
 	if err != nil {
@@ -101,7 +101,7 @@ func (uac *UserAnswerController) GetUserAnswersByQuizID(c *gin.Context) {
 // @Failure 400 {object} response.Response
 // @Failure 404 {object} response.Response
 // @Router /user-answers/user/{user_id} [get]
-func (uac *UserAnswerController) GetUserAnswersByUserID(c *gin.Context) {
+func (uac *UserAnswerControllerImpl) GetUserAnswersByUserID(c *gin.Context) {
 	userIDParam := c.Param("user_id")
 	userID, err := primitive.ObjectIDFromHex(userIDParam)
 	if err != nil {
@@ -127,7 +127,7 @@ func (uac *UserAnswerController) GetUserAnswersByUserID(c *gin.Context) {
 // @Failure 400 {object} response.Response
 // @Failure 404 {object} response.Response
 // @Router /user-answers/quiz/{quiz_id}/user/{user_id} [get]
-func (uac *UserAnswerController) GetUserAnswersByQuizAndUser(c *gin.Context) {
+func (uac *UserAnswerControllerImpl) GetUserAnswersByQuizAndUser(c *gin.Context) {
 	quizIDParam := c.Param("quiz_id")
 	userIDParam := c.Param("user_id")
 	quizID, err := primitive.ObjectIDFromHex(quizIDParam)

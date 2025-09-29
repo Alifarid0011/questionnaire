@@ -12,6 +12,7 @@ func SetupRouter(app *wire.App) *gin.Engine {
 	RegisterSwaggerRoutes(r)
 	RegisterListRoutes(r, app)
 	RegisterQuizRoutes(r, app)
+	RegisterUserAnswerRoutes(r, app)
 	RegisterAclRoutes(r, app)
 	RegisterUserRoutes(r, app)
 	RegisterAuthRoutes(r, app)

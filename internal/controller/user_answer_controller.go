@@ -2,7 +2,7 @@ package controller
 
 import "github.com/gin-gonic/gin"
 
-type UserAnswerControllerInterface interface {
+type UserAnswerController interface {
 	CreateUserAnswer(c *gin.Context)
 	GetUserAnswerByID(c *gin.Context)
 	GetUserAnswersByQuizID(c *gin.Context)
