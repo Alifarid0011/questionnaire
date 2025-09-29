@@ -16,5 +16,7 @@ func SetupRouter(app *wire.App) *gin.Engine {
 	RegisterAclRoutes(r, app)
 	RegisterUserRoutes(r, app)
 	RegisterAuthRoutes(r, app)
+	RegisterCommentRoutes(r, app)
+	RegisterQuestionRatingRoutes(r, app)
 	return r
 }

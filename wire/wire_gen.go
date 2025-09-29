@@ -43,27 +43,39 @@ func InitializeApp(secret string) (*App, error) {
 	userAnswerRepository := provider.UserAnswerRepository(database)
 	userAnswerService := provider.UserAnswerService(userAnswerRepository)
 	userAnswerController := provider.UserAnswerController(userAnswerService)
+	commentRepository := provider.CommentRepository(database)
+	commentService := provider.CommentService(commentRepository)
+	commentController := provider.CommentController(commentService)
+	questionRatingRepository := provider.QuestionRatingRepository(database)
+	questionRatingService := provider.QuestionRatingService(questionRatingRepository)
+	questionRatingController := provider.QuestionRatingController(questionRatingService)
 	app := &App{
-		TokenManager:      jwtToken,
-		BlackListRepo:     blackListTokenRepository,
-		RouterCtr:         routeController,
-		AuthCtrl:          authController,
-		RefreshTokenRepo:  refreshTokenRepository,
-		Enforcer:          enforcer,
-		Mongo:             client,
-		Engine:            engine,
-		CasbinRepo:        casbinRepository,
-		CasbinCtrl:        casbinController,
-		CasbinService:     casbinService,
-		UserCtrl:          userController,
-		UserService:       userService,
-		UserRepo:          userRepository,
-		QuizCtrl:          quizController,
-		QuizService:       quizService,
-		QuizRepo:          quizRepository,
-		UserAnswerCtrl:    userAnswerController,
-		UserAnswerService: userAnswerService,
-		UserAnswerRepo:    userAnswerRepository,
+		TokenManager:          jwtToken,
+		BlackListRepo:         blackListTokenRepository,
+		RouterCtr:             routeController,
+		AuthCtrl:              authController,
+		RefreshTokenRepo:      refreshTokenRepository,
+		Enforcer:              enforcer,
+		Mongo:                 client,
+		Engine:                engine,
+		CasbinRepo:            casbinRepository,
+		CasbinCtrl:            casbinController,
+		CasbinService:         casbinService,
+		UserCtrl:              userController,
+		UserService:           userService,
+		UserRepo:              userRepository,
+		QuizCtrl:              quizController,
+		QuizService:           quizService,
+		QuizRepo:              quizRepository,
+		UserAnswerCtrl:        userAnswerController,
+		UserAnswerService:     userAnswerService,
+		UserAnswerRepo:        userAnswerRepository,
+		CommentCtrl:           commentController,
+		CommentService:        commentService,
+		CommentRepo:           commentRepository,
+		QuestionRatingCtrl:    questionRatingController,
+		QuestionRatingService: questionRatingService,
+		QuestionRatingRepo:    questionRatingRepository,
 	}
 	return app, nil
 }
@@ -97,4 +109,12 @@ type App struct {
 	UserAnswerCtrl    controller.UserAnswerController
 	UserAnswerService service.UserAnswerService
 	UserAnswerRepo    repository.UserAnswerRepository
+	//	Comment
+	CommentCtrl    controller.CommentController
+	CommentService service.CommentService
+	CommentRepo    repository.CommentRepository
+	// question rating
+	QuestionRatingCtrl    controller.QuestionRatingController
+	QuestionRatingService service.QuestionRatingService
+	QuestionRatingRepo    repository.QuestionRatingRepository
 }
