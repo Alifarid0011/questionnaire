@@ -787,6 +787,177 @@ const docTemplate = `{
                 }
             }
         },
+        "/grading/user-answer/{id}": {
+            "post": {
+                "description": "Grade all questions in a user answer using automatic grading",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Grading"
+                ],
+                "summary": "Automatically grade a user answer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Answer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserAnswer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/grading/user-answer/{id}/appeal": {
+            "post": {
+                "description": "Allows a user to mark their answer as appealed for manual review",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Grading"
+                ],
+                "summary": "Set appeal flag for a user answer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Answer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/grading/user-answer/{id}/manual": {
+            "post": {
+                "description": "Allows a grader to manually change the score of a single question",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Grading"
+                ],
+                "summary": "Override score for a specific question",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Answer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserAnswer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/quizzes": {
             "get": {
                 "description": "Returns all quizzes",
@@ -1894,6 +2065,24 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.AnswerDTO": {
+            "type": "object",
+            "required": [
+                "question_id",
+                "response"
+            ],
+            "properties": {
+                "question_id": {
+                    "type": "string"
+                },
+                "response": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "dto.CheckPermissionDTO": {
             "type": "object",
             "required": [
@@ -2162,8 +2351,10 @@ const docTemplate = `{
             ],
             "properties": {
                 "answers": {
-                    "type": "object",
-                    "additionalProperties": true
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.AnswerDTO"
+                    }
                 },
                 "quiz_id": {
                     "type": "string"
@@ -2196,6 +2387,30 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "models.Answer": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "is_correct": {
+                    "type": "boolean"
+                },
+                "question_id": {
+                    "type": "string"
+                },
+                "response": {
+                    "description": "generic: short answer = [text], radio = [choice], checkbox = [choices]",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "score": {
+                    "type": "number"
                 }
             }
         },
@@ -2247,6 +2462,35 @@ const docTemplate = `{
                 },
                 "$ref": {
                     "description": "Collection name",
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserAnswer": {
+            "type": "object",
+            "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Answer"
+                    }
+                },
+                "appeal": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "quiz_id": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "number"
+                },
+                "user_id": {
                     "type": "string"
                 }
             }

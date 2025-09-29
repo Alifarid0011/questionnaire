@@ -18,5 +18,6 @@ func SetupRouter(app *wire.App) *gin.Engine {
 	RegisterAuthRoutes(r, app)
 	RegisterCommentRoutes(r, app)
 	RegisterQuestionRatingRoutes(r, app)
+	RegisterGradingRoutes(r, app)
 	return r
 }

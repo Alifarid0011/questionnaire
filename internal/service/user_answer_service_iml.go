@@ -128,3 +128,7 @@ func (s *userAnswerServiceImpl) GetUserAnswersByQuizAndUser(ctx context.Context,
 	}
 	return result, nil
 }
+
+func (s *userAnswerServiceImpl) SetUserAnswerAppeal(ctx context.Context, uaID primitive.ObjectID, appeal bool) error {
+	return s.repo.UserAnswerSetAppeal(ctx, uaID, appeal)
+}

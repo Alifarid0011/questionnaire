@@ -13,4 +13,6 @@ type UserAnswerRepository interface {
 	UserAnswerFindByUserID(ctx context.Context, userID primitive.ObjectID) ([]*models.UserAnswer, error)
 	UserAnswerFindByQuizIDAndUserID(ctx context.Context, quizID, userID primitive.ObjectID) ([]*models.UserAnswer, error)
 	UserAnswerEnsureIndexes(ctx context.Context) error
+	UserAnswerUpdate(ctx context.Context, answer *models.UserAnswer) error
+	UserAnswerSetAppeal(ctx context.Context, id primitive.ObjectID, appeal bool) error
 }

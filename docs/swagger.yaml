@@ -1,4 +1,16 @@
 definitions:
+  dto.AnswerDTO:
+    properties:
+      question_id:
+        type: string
+      response:
+        items:
+          type: string
+        type: array
+    required:
+    - question_id
+    - response
+    type: object
   dto.CheckPermissionDTO:
     properties:
       act:
@@ -182,8 +194,9 @@ definitions:
   dto.UserAnswerDTO:
     properties:
       answers:
-        additionalProperties: true
-        type: object
+        items:
+          $ref: '#/definitions/dto.AnswerDTO'
+        type: array
       quiz_id:
         type: string
       user_id:
@@ -209,6 +222,23 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  models.Answer:
+    properties:
+      comment:
+        type: string
+      is_correct:
+        type: boolean
+      question_id:
+        type: string
+      response:
+        description: 'generic: short answer = [text], radio = [choice], checkbox =
+          [choices]'
+        items:
+          type: string
+        type: array
+      score:
+        type: number
     type: object
   models.Comment:
     properties:
@@ -243,6 +273,25 @@ definitions:
     required:
     - $id
     - $ref
+    type: object
+  models.UserAnswer:
+    properties:
+      answers:
+        items:
+          $ref: '#/definitions/models.Answer'
+        type: array
+      appeal:
+        type: boolean
+      created_at:
+        type: string
+      id:
+        type: string
+      quiz_id:
+        type: string
+      score:
+        type: number
+      user_id:
+        type: string
     type: object
   response.Meta:
     properties:
@@ -774,6 +823,110 @@ paths:
       summary: Get comments by user
       tags:
       - Comments
+  /grading/user-answer/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Grade all questions in a user answer using automatic grading
+      parameters:
+      - description: User Answer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserAnswer'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Automatically grade a user answer
+      tags:
+      - Grading
+  /grading/user-answer/{id}/appeal:
+    post:
+      consumes:
+      - application/json
+      description: Allows a user to mark their answer as appealed for manual review
+      parameters:
+      - description: User Answer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: boolean
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Set appeal flag for a user answer
+      tags:
+      - Grading
+  /grading/user-answer/{id}/manual:
+    post:
+      consumes:
+      - application/json
+      description: Allows a grader to manually change the score of a single question
+      parameters:
+      - description: User Answer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserAnswer'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Override score for a specific question
+      tags:
+      - Grading
   /quizzes:
     get:
       description: Returns all quizzes

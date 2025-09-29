@@ -49,6 +49,9 @@ func InitializeApp(secret string) (*App, error) {
 	questionRatingRepository := provider.QuestionRatingRepository(database)
 	questionRatingService := provider.QuestionRatingService(questionRatingRepository)
 	questionRatingController := provider.QuestionRatingController(questionRatingService)
+	shortAnswerAPIClient := provider.ProvideShortAnswerAPIClient()
+	gradingService := provider.GradingService(quizRepository, userAnswerRepository, shortAnswerAPIClient)
+	userAnswerGradingController := provider.UserAnswerGradingController(gradingService)
 	app := &App{
 		TokenManager:          jwtToken,
 		BlackListRepo:         blackListTokenRepository,
@@ -76,6 +79,9 @@ func InitializeApp(secret string) (*App, error) {
 		QuestionRatingCtrl:    questionRatingController,
 		QuestionRatingService: questionRatingService,
 		QuestionRatingRepo:    questionRatingRepository,
+		GradingCtrl:           userAnswerGradingController,
+		GradingService:        gradingService,
+		ShortAnswerClient:     shortAnswerAPIClient,
 	}
 	return app, nil
 }
@@ -117,4 +123,8 @@ type App struct {
 	QuestionRatingCtrl    controller.QuestionRatingController
 	QuestionRatingService service.QuestionRatingService
 	QuestionRatingRepo    repository.QuestionRatingRepository
+	//	 grading
+	GradingCtrl       controller.UserAnswerGradingController
+	GradingService    service.GradingService
+	ShortAnswerClient utils.ShortAnswerAPIClient
 }

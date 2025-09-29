@@ -50,6 +50,10 @@ type App struct {
 	QuestionRatingCtrl    controller.QuestionRatingController
 	QuestionRatingService service.QuestionRatingService
 	QuestionRatingRepo    repository.QuestionRatingRepository
+	//	 grading
+	GradingCtrl       controller.UserAnswerGradingController
+	GradingService    service.GradingService
+	ShortAnswerClient utils.ShortAnswerAPIClient
 }
 
 // InitializeApp initializes the application with all its dependencies.
@@ -91,6 +95,10 @@ func InitializeApp(secret string) (*App, error) {
 		provider.QuestionRatingRepository,
 		provider.QuestionRatingService,
 		provider.QuestionRatingController,
+		//	 grading
+		provider.UserAnswerGradingController,
+		provider.ProvideShortAnswerAPIClient,
+		provider.GradingService,
 		wire.Struct(new(App),
 			"*"))
 	return &App{}, nil

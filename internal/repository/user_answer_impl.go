@@ -35,6 +35,19 @@ func (r *userAnswerRepositoryImpl) UserAnswerFindByID(ctx context.Context, id pr
 	return &answer, nil
 }
 
+func (r *userAnswerRepositoryImpl) UserAnswerUpdate(ctx context.Context, answer *models.UserAnswer) error {
+	filter := bson.M{"_id": answer.ID}
+	update := bson.M{
+		"$set": bson.M{
+			"answers":    answer.Answers,
+			"score":      answer.Score,
+			"appeal":     answer.Appeal,
+			"created_at": answer.CreatedAt,
+		},
+	}
+	_, err := r.collection.UpdateOne(ctx, filter, update)
+	return err
+}
 func (r *userAnswerRepositoryImpl) UserAnswerFindByQuizID(ctx context.Context, quizID primitive.ObjectID) ([]*models.UserAnswer, error) {
 	cursor, err := r.collection.Find(ctx, bson.M{"quiz_id": quizID})
 	if err != nil {
@@ -91,5 +104,13 @@ func (r *userAnswerRepositoryImpl) UserAnswerEnsureIndexes(ctx context.Context) 
 		},
 	}
 	_, err := r.collection.Indexes().CreateMany(ctx, indexes)
+	return err
+}
+
+func (r *userAnswerRepositoryImpl) UserAnswerSetAppeal(ctx context.Context, id primitive.ObjectID, appeal bool) error {
+	update := bson.M{
+		"$set": bson.M{"appeal": appeal},
+	}
+	_, err := r.collection.UpdateByID(ctx, id, update)
 	return err
 }

@@ -12,4 +12,5 @@ type UserAnswerService interface {
 	GetUserAnswersByQuizID(ctx context.Context, quizID primitive.ObjectID) ([]*dto.UserAnswerDTO, error)
 	GetUserAnswersByUserID(ctx context.Context, userID primitive.ObjectID) ([]*dto.UserAnswerDTO, error)
 	GetUserAnswersByQuizAndUser(ctx context.Context, quizID, userID primitive.ObjectID) ([]*dto.UserAnswerDTO, error)
+	SetUserAnswerAppeal(ctx context.Context, uaID primitive.ObjectID, appeal bool) error
 }
