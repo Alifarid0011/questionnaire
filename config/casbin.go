@@ -8,7 +8,7 @@ import (
 )
 
 func InitCasbin(mongoClient *mongo.Client) *casbin.Enforcer {
-	adapter, err := mongodbadapter.NewAdapterByDB(mongoClient, &mongodbadapter.AdapterConfig{})
+	adapter, err := mongodbadapter.NewAdapterByDB(mongoClient, &mongodbadapter.AdapterConfig{DatabaseName: "questionnaire", CollectionName: "rule"})
 	if err != nil {
 		panic(err)
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Alifarid0011/questionnaire-back-end/config"
+	_ "github.com/Alifarid0011/questionnaire-back-end/docs"
 	"github.com/Alifarid0011/questionnaire-back-end/routers"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"log"
