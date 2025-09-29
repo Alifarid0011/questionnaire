@@ -34,6 +34,10 @@ type App struct {
 	UserCtrl    controller.UserController
 	UserService service.UserService
 	UserRepo    repository.UserRepository
+	//Quiz
+	QuizCtrl    controller.QuizController
+	QuizService service.QuizService
+	QuizRepo    repository.QuizRepository
 }
 
 // InitializeApp initializes the application with all its dependencies.
@@ -59,6 +63,10 @@ func InitializeApp(secret string) (*App, error) {
 		provider.BlackListRepository,
 		provider.RefreshTokenRepository,
 		provider.RouterController,
+		// Quiz
+		provider.QuizRepository,
+		provider.QuizService,
+		provider.QuizController,
 		wire.Struct(new(App),
 			"*"))
 	return &App{}, nil

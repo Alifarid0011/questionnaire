@@ -2,7 +2,7 @@ package controller
 
 import "github.com/gin-gonic/gin"
 
-type QuizControllerInterface interface {
+type QuizController interface {
 	CreateQuiz(c *gin.Context)
 	UpdateQuiz(c *gin.Context)
 	DeleteQuiz(c *gin.Context)

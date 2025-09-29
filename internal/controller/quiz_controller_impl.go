@@ -8,12 +8,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type QuizController struct {
+type QuizControllerImpl struct {
 	service service.QuizService
 }
 
-func NewQuizController(s service.QuizService) *QuizController {
-	return &QuizController{service: s}
+func NewQuizController(s service.QuizService) QuizController {
+	return &QuizControllerImpl{service: s}
 }
 
 // CreateQuiz godoc
@@ -26,7 +26,7 @@ func NewQuizController(s service.QuizService) *QuizController {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes [post]
-func (qc *QuizController) CreateQuiz(c *gin.Context) {
+func (qc *QuizControllerImpl) CreateQuiz(c *gin.Context) {
 	var input dto.QuizDTO
 	if err := c.ShouldBindJSON(&input); err != nil {
 		response.New(c).Errors(err).Dispatch()
@@ -50,7 +50,7 @@ func (qc *QuizController) CreateQuiz(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes [put]
-func (qc *QuizController) UpdateQuiz(c *gin.Context) {
+func (qc *QuizControllerImpl) UpdateQuiz(c *gin.Context) {
 	var input dto.UpdateQuizDTO
 	if err := c.ShouldBindJSON(&input); err != nil {
 		response.New(c).Errors(err).Dispatch()
@@ -72,7 +72,7 @@ func (qc *QuizController) UpdateQuiz(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/{id} [delete]
-func (qc *QuizController) DeleteQuiz(c *gin.Context) {
+func (qc *QuizControllerImpl) DeleteQuiz(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(idParam)
 	if err != nil {
@@ -94,7 +94,7 @@ func (qc *QuizController) DeleteQuiz(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/{id} [get]
-func (qc *QuizController) GetQuizByID(c *gin.Context) {
+func (qc *QuizControllerImpl) GetQuizByID(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(idParam)
 	if err != nil {
@@ -116,7 +116,7 @@ func (qc *QuizController) GetQuizByID(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes [get]
-func (qc *QuizController) GetAllQuizzes(c *gin.Context) {
+func (qc *QuizControllerImpl) GetAllQuizzes(c *gin.Context) {
 	quizzes, err := qc.service.GetAll(c.Request.Context())
 	if err != nil {
 		response.New(c).Errors(err).Dispatch()
@@ -133,7 +133,7 @@ func (qc *QuizController) GetAllQuizzes(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/category [get]
-func (qc *QuizController) GetQuizzesByCategory(c *gin.Context) {
+func (qc *QuizControllerImpl) GetQuizzesByCategory(c *gin.Context) {
 	category := c.Query("category")
 	quizzes, err := qc.service.GetByCategory(c.Request.Context(), category)
 	if err != nil {
@@ -150,7 +150,7 @@ func (qc *QuizController) GetQuizzesByCategory(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/categories [get]
-func (qc *QuizController) GetQuizCategories(c *gin.Context) {
+func (qc *QuizControllerImpl) GetQuizCategories(c *gin.Context) {
 	categories, err := qc.service.GetCategories(c.Request.Context())
 	if err != nil {
 		response.New(c).Errors(err).Dispatch()
@@ -166,7 +166,7 @@ func (qc *QuizController) GetQuizCategories(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/categories/count [get]
-func (qc *QuizController) GetQuizCountByCategory(c *gin.Context) {
+func (qc *QuizControllerImpl) GetQuizCountByCategory(c *gin.Context) {
 	countMap, err := qc.service.CountByCategory(c.Request.Context())
 	if err != nil {
 		response.New(c).Errors(err).Dispatch()

@@ -37,6 +37,9 @@ func InitializeApp(secret string) (*App, error) {
 	casbinService := provider.CasbinService(casbinRepository)
 	casbinController := provider.CasbinController(casbinService)
 	userController := provider.UserController(userService, casbinService)
+	quizRepository := provider.QuizRepository(database)
+	quizService := provider.QuizService(quizRepository)
+	quizController := provider.QuizController(quizService)
 	app := &App{
 		TokenManager:     jwtToken,
 		BlackListRepo:    blackListTokenRepository,
@@ -52,6 +55,9 @@ func InitializeApp(secret string) (*App, error) {
 		UserCtrl:         userController,
 		UserService:      userService,
 		UserRepo:         userRepository,
+		QuizCtrl:         quizController,
+		QuizService:      quizService,
+		QuizRepo:         quizRepository,
 	}
 	return app, nil
 }
@@ -77,4 +83,8 @@ type App struct {
 	UserCtrl    controller.UserController
 	UserService service.UserService
 	UserRepo    repository.UserRepository
+	//Quiz
+	QuizCtrl    controller.QuizController
+	QuizService service.QuizService
+	QuizRepo    repository.QuizRepository
 }
