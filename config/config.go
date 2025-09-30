@@ -20,6 +20,9 @@ type Config struct {
 type SuperUserConfig struct {
 	Username string
 	Password string
+	FullName string `json:"full_name"`
+	Mobile   string `json:"mobile"`
+	Email    string `json:"email"`
 }
 type SemanticAnswerValidatorConfig struct {
 	Url                 string `json:"url"`

@@ -22,6 +22,7 @@ func NewQuizController(s service.QuizService) QuizController {
 // @Tags quizzes
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param quiz body dto.QuizDTO true "Quiz data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -46,6 +47,7 @@ func (qc *QuizControllerImpl) CreateQuiz(c *gin.Context) {
 // @Tags quizzes
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param quiz body dto.UpdateQuizDTO true "Updated quiz data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -68,6 +70,7 @@ func (qc *QuizControllerImpl) UpdateQuiz(c *gin.Context) {
 // @Summary Delete a quiz
 // @Description Deletes a quiz by ID
 // @Tags quizzes
+// @Security AuthBearer
 // @Param id path string true "Quiz ID"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -90,6 +93,7 @@ func (qc *QuizControllerImpl) DeleteQuiz(c *gin.Context) {
 // @Summary Get quiz by ID
 // @Description Returns a single quiz by ID
 // @Tags quizzes
+// @Security AuthBearer
 // @Param id path string true "Quiz ID"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -113,6 +117,7 @@ func (qc *QuizControllerImpl) GetQuizByID(c *gin.Context) {
 // @Summary Get all quizzes
 // @Description Returns all quizzes
 // @Tags quizzes
+// @Security AuthBearer
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes [get]
@@ -129,6 +134,7 @@ func (qc *QuizControllerImpl) GetAllQuizzes(c *gin.Context) {
 // @Summary Get quizzes by category
 // @Description Returns all quizzes for a given category
 // @Tags quizzes
+// @Security AuthBearer
 // @Param category query string true "Category name"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -147,6 +153,7 @@ func (qc *QuizControllerImpl) GetQuizzesByCategory(c *gin.Context) {
 // @Summary Get quiz categories
 // @Description Returns all available quiz categories
 // @Tags quizzes
+// @Security AuthBearer
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/categories [get]
@@ -163,6 +170,7 @@ func (qc *QuizControllerImpl) GetQuizCategories(c *gin.Context) {
 // @Summary Get quiz count by category
 // @Description Returns number of quizzes in each category
 // @Tags quizzes
+// @Security AuthBearer
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /quizzes/categories/count [get]

@@ -1,12 +1,16 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterQuestionRatingRoutes(r *gin.Engine, app *wire.App) {
-	ratingsRouter := r.Group("/ratings")
+	ratingsRouter := r.Group("/ratings",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer),
+	)
 	{
 		ratingsRouter.POST("", app.QuestionRatingCtrl.CreateRating)                                                  // Create a new rating
 		ratingsRouter.PUT("", app.QuestionRatingCtrl.UpdateRating)                                                   // Update a rating

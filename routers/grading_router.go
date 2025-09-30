@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
@@ -8,7 +9,10 @@ import (
 // RegisterGradingRoutes registers routes for grading user answers
 func RegisterGradingRoutes(r *gin.Engine, app *wire.App) {
 
-	ratingsRouter := r.Group("/grading/user-answer")
+	ratingsRouter := r.Group("/grading/user-answer",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer),
+	)
 	{
 		// Automatically grade a user answer
 		ratingsRouter.POST("/:id", app.GradingCtrl.GradeUserAnswer)

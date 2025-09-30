@@ -1,12 +1,15 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterQuizRoutes(r *gin.Engine, app *wire.App) {
-	quizRouter := r.Group("/quizzes")
+	quizRouter := r.Group("/quizzes",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer))
 	{
 		quizRouter.POST("", app.QuizCtrl.CreateQuiz)
 		quizRouter.PUT("", app.QuizCtrl.UpdateQuiz)

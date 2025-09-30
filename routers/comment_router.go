@@ -1,12 +1,15 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterCommentRoutes(r *gin.Engine, app *wire.App) {
-	commentRouter := r.Group("/comments")
+	commentRouter := r.Group("/comments",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer))
 	{
 		commentRouter.POST("", app.CommentCtrl.CreateComment)                            // Create a new comment
 		commentRouter.PUT("", app.CommentCtrl.UpdateComment)                             // Update a comment
