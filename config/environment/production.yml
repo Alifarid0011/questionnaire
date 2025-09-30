@@ -1,12 +1,12 @@
 app:
   name: "questionnaire"
   version: "1.0.0"
-  port: 8587
+  port: 8080
   host: "localhost"
 
 mongo:
   hosts:
-    - 127.0.0.1
+    - 192.168.122.1
   username: "root"
   password: "examplepassword"
   port: "27017"
