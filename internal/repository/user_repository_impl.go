@@ -105,7 +105,7 @@ func (r *UserRepositoryImpl) GetAll(ctx context.Context) ([]models.User, error) 
 	return nil, errors.New("failed to find all users")
 
 }
-func (r *UserRepositoryImpl) EnsureIndexes() error {
+func (r *UserRepositoryImpl) EnsureIndexes(ctx context.Context) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	indexes := []mongo.IndexModel{

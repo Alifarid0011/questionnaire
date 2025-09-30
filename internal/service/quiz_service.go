@@ -15,5 +15,4 @@ type QuizService interface {
 	GetByCategory(ctx context.Context, category string) ([]*dto.QuizDTO, error)
 	GetCategories(ctx context.Context) ([]string, error)
 	CountByCategory(ctx context.Context) (map[string]int64, error)
-	EnsureIndexes(ctx context.Context) error
 }

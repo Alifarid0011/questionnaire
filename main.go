@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/Alifarid0011/questionnaire-back-end/config"
 	_ "github.com/Alifarid0011/questionnaire-back-end/docs"
+	"github.com/Alifarid0011/questionnaire-back-end/internal/repository"
 	"github.com/Alifarid0011/questionnaire-back-end/routers"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"log"
@@ -27,6 +29,15 @@ func main() {
 	}
 	r := routers.SetupRouter(app)
 	r.RemoveExtraSlash = true
+	errEnsureAllIndexes := repository.EnsureAllIndexes(context.Background(), []repository.IndexEnsurer{
+		app.CommentRepo,
+		app.QuizRepo,
+		app.UserAnswerRepo,
+		app.UserRepo,
+	})
+	if errEnsureAllIndexes != nil {
+		log.Fatalf("Failed to index on mongo: %v", errEnsureAllIndexes)
+	}
 	if err := r.Run(fmt.Sprintf(":%v", config.Get.App.Port)); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}

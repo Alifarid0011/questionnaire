@@ -113,7 +113,7 @@ func (r *quizRepositoryImpl) QuizCountByCategory(ctx context.Context) (map[strin
 	return counts, nil
 }
 
-func (r *quizRepositoryImpl) QuizEnsureIndexes(ctx context.Context) error {
+func (r *quizRepositoryImpl) EnsureIndexes(ctx context.Context) error {
 	indexes := []mongo.IndexModel{
 		{Keys: bson.D{{Key: "category", Value: 1}}, Options: options.Index().SetName("idx_category")},
 		{Keys: bson.D{{Key: "user_id", Value: 1}}, Options: options.Index().SetName("idx_user_id")},

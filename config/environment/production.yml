@@ -11,7 +11,7 @@ mongo:
   password: "examplepassword"
   port: "27017"
   protocol: "mongodb"
-  DbName: "acl"
+  DbName: "questionnaire"
   collection: "users"
   AuthSource: "admin"
 

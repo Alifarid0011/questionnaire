@@ -13,5 +13,5 @@ type UserRepository interface {
 	GetAll(ctx context.Context) ([]models.User, error)
 	Update(user *models.User, ctx context.Context) error // Add Update
 	Delete(user *models.User, ctx context.Context) error // Add Delete
-	EnsureIndexes() error
+	EnsureIndexes(ctx context.Context) error
 }

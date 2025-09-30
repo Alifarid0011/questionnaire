@@ -90,10 +90,6 @@ func (s *quizServiceImpl) CountByCategory(ctx context.Context) (map[string]int64
 	return s.repo.QuizCountByCategory(ctx)
 }
 
-func (s *quizServiceImpl) EnsureIndexes(ctx context.Context) error {
-	return s.repo.QuizEnsureIndexes(ctx)
-}
-
 func mapQuestionsDTOToModel(dtos []dto.QuestionDTO) []models.Question {
 	questions := make([]models.Question, len(dtos))
 	for i, q := range dtos {
