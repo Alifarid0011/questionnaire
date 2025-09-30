@@ -15,6 +15,11 @@ type Config struct {
 	RateLimiter             RateLimitConfig
 	Token                   TokenConfig
 	SemanticAnswerValidator SemanticAnswerValidatorConfig
+	SuperUser               SuperUserConfig
+}
+type SuperUserConfig struct {
+	Username string
+	Password string
 }
 type SemanticAnswerValidatorConfig struct {
 	Url                 string `json:"url"`
