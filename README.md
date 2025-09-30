@@ -8,10 +8,9 @@ This project is designed with clean architecture principles, dependency injectio
 
 ## 🚀 Features
 
-- **Authentication**:  
+ **Authentication**:  
   - Secure JWT-based authentication system.
   - Access and refresh tokens for session management.
-
 - **Authorization**:  
   - Role-Based Access Control (**RBAC**) powered by **Casbin**.
   - Flexible policies with `sub`, `obj`, and `act` definitions:
@@ -23,11 +22,19 @@ This project is designed with clean architecture principles, dependency injectio
     ```text
     m = r.sub == "super_admin" || (g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && (r.act == p.act || p.act == "*"))
     ```
+ **Polymorphic Comments**: 
+ - Comment system implemented in a **polymorphic way**. 
+ - Supports attaching comments to multiple entities (e.g., questions, answers, users).
+- **Question Scoring**: 
+ - Built-in **rating system** for questions. 
+ - Enables grading and evaluating user responses with custom scoring rules.
+ - **User Agent Tracking**: 
+ - Logs **API consumer’s user agent** (browser, device, or client application).
+ - Useful for auditing, analytics, and monitoring user activity.
 
-- **Semantic Answer Validation**:  
-  - Integrates with [Semantic Answer Validator](https://github.com/Alifarid0011/semantic-answer-validator).  
+ **Semantic Answer Validation**:
+  - Integrates with [Semantic Answer Validator](https://github.com/Alifarid0011/semantic-answer-validator).
   - Used to validate **short answers** against expected responses with semantic similarity.  
-
   Example request:
 ```http
   POST http://127.0.0.1:8020/check_answer
@@ -195,5 +202,7 @@ Response:
 * ✅ Role-based authorization (Casbin RBAC)
 * ✅ JWT authentication
 * ✅ Semantic short-answer validation
-
+* ✅ Polymorphic comments system
+* ✅ Question scoring engine
+* ✅ User agent logging
 ---
