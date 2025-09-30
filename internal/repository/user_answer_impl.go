@@ -88,7 +88,7 @@ func (r *userAnswerRepositoryImpl) UserAnswerFindByQuizIDAndUserID(ctx context.C
 	return answers, nil
 }
 
-func (r *userAnswerRepositoryImpl) UserAnswerEnsureIndexes(ctx context.Context) error {
+func (r *userAnswerRepositoryImpl) EnsureIndexes(ctx context.Context) error {
 	indexes := []mongo.IndexModel{
 		{
 			Keys:    bson.D{{Key: "quiz_id", Value: 1}},

@@ -21,6 +21,7 @@ func NewUserAnswerGradingController(gs service.GradingService) *UserAnswerGradin
 // @Summary Automatically grade a user answer
 // @Description Grade all questions in a user answer using automatic grading
 // @Tags Grading
+// @Security AuthBearer
 // @Accept json
 // @Produce json
 // @Param id path string true "User Answer ID"
@@ -49,6 +50,7 @@ func (uc *UserAnswerGradingControllerImpl) GradeUserAnswer(c *gin.Context) {
 // @Summary Override score for a specific question
 // @Description Allows a grader to manually change the score of a single question
 // @Tags Grading
+// @Security AuthBearer
 // @Accept json
 // @Produce json
 // @Param id path string true "User Answer ID"
@@ -86,6 +88,7 @@ func (uc *UserAnswerGradingControllerImpl) ManualGrading(c *gin.Context) {
 // @Summary Set appeal flag for a user answer
 // @Description Allows a user to mark their answer as appealed for manual review
 // @Tags Grading
+// @Security AuthBearer
 // @Accept json
 // @Produce json
 // @Param id path string true "User Answer ID"

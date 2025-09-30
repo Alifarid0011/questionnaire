@@ -20,6 +20,7 @@ func NewUserAnswerController(s service.UserAnswerService) *UserAnswerControllerI
 // @Summary Create a new user answer
 // @Description Create and store a user answer for a quiz
 // @Tags UserAnswers
+// @Security AuthBearer
 // @Accept json
 // @Produce json
 // @Param userAnswer body dto.UserAnswerDTO true "User Answer DTO"
@@ -45,6 +46,7 @@ func (uac *UserAnswerControllerImpl) CreateUserAnswer(c *gin.Context) {
 // @Summary Get user answer by ID
 // @Description Retrieve a user answer using its ID
 // @Tags UserAnswers
+// @Security AuthBearer
 // @Produce json
 // @Param id path string true "User Answer ID"
 // @Success 200 {object} response.Response{data=dto.UserAnswerDTO}
@@ -70,6 +72,7 @@ func (uac *UserAnswerControllerImpl) GetUserAnswerByID(c *gin.Context) {
 // @Summary Get all user answers for a quiz
 // @Description Retrieve all user answers for a specific quiz
 // @Tags UserAnswers
+// @Security AuthBearer
 // @Produce json
 // @Param quiz_id path string true "Quiz ID"
 // @Success 200 {object} response.Response{data=[]dto.UserAnswerDTO}
@@ -95,6 +98,7 @@ func (uac *UserAnswerControllerImpl) GetUserAnswersByQuizID(c *gin.Context) {
 // @Summary Get all user answers for a user
 // @Description Retrieve all user answers submitted by a specific user
 // @Tags UserAnswers
+// @Security AuthBearer
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} response.Response{data=[]dto.UserAnswerDTO}
@@ -120,6 +124,7 @@ func (uac *UserAnswerControllerImpl) GetUserAnswersByUserID(c *gin.Context) {
 // @Summary Get user answers for a quiz and user
 // @Description Retrieve answers submitted by a specific user for a specific quiz
 // @Tags UserAnswers
+// @Security AuthBearer
 // @Produce json
 // @Param quiz_id path string true "Quiz ID"
 // @Param user_id path string true "User ID"

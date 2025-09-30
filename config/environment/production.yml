@@ -11,7 +11,7 @@ mongo:
   password: "examplepassword"
   port: "27017"
   protocol: "mongodb"
-  DbName: "acl"
+  DbName: "questionnaire"
   collection: "users"
   AuthSource: "admin"
 
@@ -22,7 +22,12 @@ rate_limiter:
 semantic_answer_validator:
   url: http://127.0.0.1
   checkAnswerEndPoint: /check_answer
-
+super_user:
+  Username: "alifarid"
+  Password: "AliFarid!123"
+  FullName: ali farid
+  Mobile: 09227847269
+  Email: alifarid0011@gmail.com
 token:
   expiryAccessToken: 9010
   expiryRefreshToken: 10000

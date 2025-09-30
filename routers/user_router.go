@@ -7,7 +7,9 @@ import (
 )
 
 func RegisterUserRoutes(r *gin.Engine, app *wire.App) {
-	userRouter := r.Group("/users")
+	userRouter := r.Group("/users",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer))
 	{
 		userRouter.POST("", app.UserCtrl.CreateUser)
 		userRouter.GET("", middleware.PaginationMiddleware(), app.UserCtrl.GetAllUsers)

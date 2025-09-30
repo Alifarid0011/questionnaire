@@ -1,12 +1,15 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterUserAnswerRoutes(r *gin.Engine, app *wire.App) {
-	userAnswerRouter := r.Group("/user-answers")
+	userAnswerRouter := r.Group("/user-answers",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer))
 	{
 		userAnswerRouter.POST("", app.UserAnswerCtrl.CreateUserAnswer)
 		userAnswerRouter.GET("/:id", app.UserAnswerCtrl.GetUserAnswerByID)

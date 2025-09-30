@@ -7,7 +7,7 @@ import (
 )
 
 func RegisterAuthRoutes(r *gin.Engine, app *wire.App) {
-	auth := r.Group("/auth", middleware.UserAgentMiddleware())
+	auth := r.Group("/auth", middleware.UserAgentMiddleware(), middleware.UserAgentMiddleware())
 	{
 		auth.POST("/login", app.AuthCtrl.Login)
 		auth.POST("/refresh_token", app.AuthCtrl.UseRefreshToken)

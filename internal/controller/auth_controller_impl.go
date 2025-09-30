@@ -31,7 +31,7 @@ func NewAuthController(authService service.AuthService, userService service.User
 func (c *authControllerImpl) Login(ctx *gin.Context) {
 	var req dto.LoginRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.login.failed").
 			Status(http.StatusBadRequest).
 			Errors(err).
@@ -41,14 +41,14 @@ func (c *authControllerImpl) Login(ctx *gin.Context) {
 	UserAgentInfo, _ := ctx.Get(constant.UserAgentInfo)
 	resp, err := c.authService.Login(req, UserAgentInfo.(*utils.UserAgent))
 	if err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.login.failed").
 			Status(http.StatusUnauthorized).
 			Errors(err).
 			Dispatch()
 		return
 	}
-	response.New(ctx).Message("خوش آمدید.").
+	response.New(ctx).Message("welcome").
 		MessageID("auth.login.success").
 		Data(resp).
 		Status(http.StatusOK).
@@ -69,18 +69,18 @@ func (c *authControllerImpl) Logout(ctx *gin.Context) {
 	token, _ := ctx.Get("access_token")
 	err := c.authService.Logout(token.(string), UserAgentInfo.(*utils.UserAgent))
 	if err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.logout.failed").
 			Status(http.StatusUnauthorized).
 			Errors(err).
 			Dispatch()
 		return
 	}
-	response.New(ctx).Message("خروج با موفقیت انجام شد.").
+	response.New(ctx).Message("successfully logout").
 		MessageID("auth.logout.success").
 		Status(http.StatusOK).
 		Data(map[string]string{
-			"message": "خروج با موفقیت انجام شد. به امید دیدار.",
+			"message": "bye ...",
 		}).
 		Dispatch()
 }
@@ -97,7 +97,7 @@ func (c *authControllerImpl) Logout(ctx *gin.Context) {
 func (c *authControllerImpl) Register(ctx *gin.Context) {
 	var req dto.CreateUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.register.failed").
 			Status(http.StatusBadRequest).
 			Errors(err).
@@ -106,14 +106,14 @@ func (c *authControllerImpl) Register(ctx *gin.Context) {
 	}
 	userResponse, err := c.userService.CreateUser(req, ctx.Request.Context())
 	if err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.register.failed").
 			Status(http.StatusInternalServerError).
 			Errors(err).
 			Dispatch()
 		return
 	}
-	response.New(ctx).Message("خوش آمدید.").
+	response.New(ctx).Message("welcome").
 		MessageID("auth.register.success").
 		Data(userResponse).
 		Status(http.StatusCreated).
@@ -132,7 +132,7 @@ func (c *authControllerImpl) Register(ctx *gin.Context) {
 func (c *authControllerImpl) UseRefreshToken(ctx *gin.Context) {
 	var req dto.RefreshRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.refresh_token.failed").
 			Status(http.StatusBadRequest).
 			Errors(err).
@@ -142,14 +142,14 @@ func (c *authControllerImpl) UseRefreshToken(ctx *gin.Context) {
 	UserAgentInfo, _ := ctx.Get(constant.UserAgentInfo)
 	resp, err := c.authService.UseRefreshToken(req, UserAgentInfo.(*utils.UserAgent))
 	if err != nil {
-		response.New(ctx).Message("عملیات با خطا مواجه شد.").
+		response.New(ctx).Message("operation failed").
 			MessageID("auth.refresh_token.failed").
 			Status(http.StatusUnauthorized).
 			Errors(err).
 			Dispatch()
 		return
 	}
-	response.New(ctx).Message("توکن جدید ایجاد شد.").
+	response.New(ctx).Message("token generated successfully").
 		MessageID("auth.refresh_token.success").
 		Data(resp).
 		Status(http.StatusOK).

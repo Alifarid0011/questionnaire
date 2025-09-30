@@ -15,5 +15,5 @@ type QuizRepository interface {
 	QuizGetByCategory(ctx context.Context, category string) ([]*models.Quiz, error)
 	QuizGetCategories(ctx context.Context) ([]string, error)
 	QuizCountByCategory(ctx context.Context) (map[string]int64, error)
-	QuizEnsureIndexes(ctx context.Context) error
+	EnsureIndexes(ctx context.Context) error
 }

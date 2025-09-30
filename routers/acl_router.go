@@ -1,12 +1,16 @@
 package routers
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/internal/middleware"
 	"github.com/Alifarid0011/questionnaire-back-end/wire"
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterAclRoutes(r *gin.Engine, app *wire.App) {
-	aclRouter := r.Group("/acl")
+	aclRouter := r.Group("/acl",
+		middleware.AuthMiddleware(app.BlackListRepo, app.TokenManager),
+		middleware.CasbinMiddleware(app.Enforcer),
+	)
 	{
 		aclRouter.GET("/check", app.CasbinCtrl.CheckPermission)
 		aclRouter.GET("/permissions", app.CasbinCtrl.ListAllCasbinData)

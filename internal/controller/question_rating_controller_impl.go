@@ -22,6 +22,7 @@ func NewQuestionRatingController(s service.QuestionRatingService) QuestionRating
 // @Tags QuestionRatings
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param rating body dto.QuestionRatingDTO true "Question Rating"
 // @Success 200 {object} response.Response{data=dto.QuestionRatingDTO}
 // @Failure 400 {object} response.Response
@@ -47,6 +48,7 @@ func (qc *questionRatingControllerImpl) CreateRating(c *gin.Context) {
 // @Tags QuestionRatings
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param rating body dto.UpdateQuestionRatingDTO true "Update Question Rating"
 // @Success 200 {object} response.Response{data=dto.QuestionRatingDTO}
 // @Failure 400 {object} response.Response
@@ -71,6 +73,7 @@ func (qc *questionRatingControllerImpl) UpdateRating(c *gin.Context) {
 // @Description Retrieve a specific rating by its ID
 // @Tags QuestionRatings
 // @Produce json
+// @Security AuthBearer
 // @Param id path string true "Rating ID"
 // @Success 200 {object} response.Response{data=dto.QuestionRatingDTO}
 // @Failure 400 {object} response.Response

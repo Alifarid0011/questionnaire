@@ -22,6 +22,7 @@ func NewCommentController(s service.CommentService) *CommentControllerImpl {
 // @Tags Comments
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param comment body models.Comment true "Comment data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -46,6 +47,7 @@ func (cc *CommentControllerImpl) CreateComment(c *gin.Context) {
 // @Tags Comments
 // @Accept json
 // @Produce json
+// @Security AuthBearer
 // @Param comment body models.Comment true "Updated comment data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
@@ -69,6 +71,7 @@ func (cc *CommentControllerImpl) UpdateComment(c *gin.Context) {
 // @Description Returns a comment by its ID
 // @Tags Comments
 // @Produce json
+// @Security AuthBearer
 // @Param id path string true "Comment ID"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
