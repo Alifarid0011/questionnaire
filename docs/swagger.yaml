@@ -118,24 +118,12 @@ definitions:
     type: object
   dto.QuestionRatingDTO:
     properties:
-      created_at:
-        description: Timestamp of creation
-        type: string
-      id:
-        description: Unique identifier of the rating
-        type: string
       question_id:
         description: ID of the question being rated
         type: string
       score:
         description: Rating score from 1 to 5
         type: integer
-      updated_at:
-        description: Timestamp of last update
-        type: string
-      user_id:
-        description: ID of the user who rated the question
-        type: string
     type: object
   dto.QuizDTO:
     properties:
@@ -875,42 +863,6 @@ paths:
       summary: Set appeal flag for a user answer
       tags:
       - Grading
-  /grading/user-answer/{id}/manual:
-    post:
-      consumes:
-      - application/json
-      description: Allows a grader to manually change the score of a single question
-      parameters:
-      - description: User Answer ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.UserAnswer'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - AuthBearer: []
-      summary: Override score for a specific question
-      tags:
-      - Grading
   /quizzes:
     get:
       description: Returns all quizzes
@@ -1116,7 +1068,7 @@ paths:
       - AuthBearer: []
       summary: Create a new question rating
       tags:
-      - QuestionRatings
+      - QuestionsRatings
     put:
       consumes:
       - application/json
@@ -1148,7 +1100,7 @@ paths:
       - AuthBearer: []
       summary: Update an existing question rating
       tags:
-      - QuestionRatings
+      - QuestionsRatings
   /ratings/{id}:
     get:
       description: Retrieve a specific rating by its ID
@@ -1182,7 +1134,7 @@ paths:
       - AuthBearer: []
       summary: Get a question rating by ID
       tags:
-      - QuestionRatings
+      - QuestionsRatings
   /ratings/question/{question_id}:
     get:
       description: Retrieve all ratings submitted for a specific question
@@ -1209,7 +1161,7 @@ paths:
       - AuthBearer: []
       summary: Get all ratings for a question
       tags:
-      - QuestionRatings
+      - QuestionsRatings
   /ratings/question/{question_id}/user/{user_id}:
     get:
       description: Retrieve the rating submitted by a specific user for a specific
@@ -1244,7 +1196,7 @@ paths:
       - AuthBearer: []
       summary: Get a user's rating for a specific question
       tags:
-      - QuestionRatings
+      - QuestionsRatings
   /ratings/user/{user_id}:
     get:
       description: Retrieve all question ratings submitted by a specific user
@@ -1271,7 +1223,7 @@ paths:
       - AuthBearer: []
       summary: Get all ratings by a user
       tags:
-      - QuestionRatings
+      - QuestionsRatings
   /routes/list:
     get:
       consumes:

@@ -19,14 +19,14 @@ func NewQuestionRatingService(repo repository.QuestionRatingRepository) Question
 }
 
 func (s *questionRatingServiceImpl) CreateRating(ctx context.Context, input *dto.QuestionRatingDTO) (*dto.QuestionRatingDTO, error) {
-	existing, _ := s.repo.FindByQuestionAndUser(ctx, input.QuestionID, input.UserID)
+	existing, _ := s.repo.FindByQuestionAndUser(ctx, input.QuestionID, ctx.Value("user_uid").(primitive.ObjectID))
 	if existing != nil {
 		return nil, errors.New("user has already rated this question")
 	}
 
 	rating := &models.QuestionRating{
 		QuestionID: input.QuestionID,
-		UserID:     input.UserID,
+		UserID:     ctx.Value("user_uid").(primitive.ObjectID),
 		Score:      input.Score,
 		CreatedAt:  time.Now(),
 	}

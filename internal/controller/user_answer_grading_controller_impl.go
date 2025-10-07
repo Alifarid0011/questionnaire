@@ -46,18 +46,6 @@ func (uc *UserAnswerGradingControllerImpl) GradeUserAnswer(c *gin.Context) {
 	response.New(c).Data(ua).Dispatch()
 }
 
-// ManualGrading godoc
-// @Summary Override score for a specific question
-// @Description Allows a grader to manually change the score of a single question
-// @Tags Grading
-// @Security AuthBearer
-// @Accept json
-// @Produce json
-// @Param id path string true "User Answer ID"
-// @Success 200 {object} response.Response{data=models.UserAnswer}
-// @Failure 400 {object} response.Response
-// @Failure 404 {object} response.Response
-// @Router /grading/user-answer/{id}/manual [post]
 func (uc *UserAnswerGradingControllerImpl) ManualGrading(c *gin.Context) {
 	idParam := c.Param("id")
 	uaID, err := primitive.ObjectIDFromHex(idParam)
@@ -103,19 +91,10 @@ func (uc *UserAnswerGradingControllerImpl) SetAppeal(c *gin.Context) {
 		response.New(c).Errors(err).Dispatch()
 		return
 	}
-
-	var body struct {
-		Appeal bool `json:"appeal"`
-	}
-	if err := c.ShouldBindJSON(&body); err != nil {
+	if err := uc.gradingService.SetAppeal(c.Request.Context(), uaID, true); err != nil {
 		response.New(c).Errors(err).Dispatch()
 		return
 	}
 
-	if err := uc.gradingService.SetAppeal(c.Request.Context(), uaID, body.Appeal); err != nil {
-		response.New(c).Errors(err).Dispatch()
-		return
-	}
-
-	response.New(c).Data(map[string]bool{"appeal": body.Appeal}).Dispatch()
+	response.New(c).Data(map[string]bool{"appeal": true}).Dispatch()
 }

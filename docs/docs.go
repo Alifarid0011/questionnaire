@@ -931,67 +931,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/grading/user-answer/{id}/manual": {
-            "post": {
-                "security": [
-                    {
-                        "AuthBearer": []
-                    }
-                ],
-                "description": "Allows a grader to manually change the score of a single question",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Grading"
-                ],
-                "summary": "Override score for a specific question",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User Answer ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.UserAnswer"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/quizzes": {
             "get": {
                 "security": [
@@ -1286,7 +1225,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Update an existing question rating",
                 "parameters": [
@@ -1341,7 +1280,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Create a new question rating",
                 "parameters": [
@@ -1395,7 +1334,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Get all ratings for a question",
                 "parameters": [
@@ -1438,7 +1377,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Get a user's rating for a specific question",
                 "parameters": [
@@ -1491,7 +1430,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Get all ratings by a user",
                 "parameters": [
@@ -1534,7 +1473,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "QuestionRatings"
+                    "QuestionsRatings"
                 ],
                 "summary": "Get a question rating by ID",
                 "parameters": [
@@ -2365,14 +2304,6 @@ const docTemplate = `{
         "dto.QuestionRatingDTO": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "description": "Timestamp of creation",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "Unique identifier of the rating",
-                    "type": "string"
-                },
                 "question_id": {
                     "description": "ID of the question being rated",
                     "type": "string"
@@ -2380,14 +2311,6 @@ const docTemplate = `{
                 "score": {
                     "description": "Rating score from 1 to 5",
                     "type": "integer"
-                },
-                "updated_at": {
-                    "description": "Timestamp of last update",
-                    "type": "string"
-                },
-                "user_id": {
-                    "description": "ID of the user who rated the question",
-                    "type": "string"
                 }
             }
         },

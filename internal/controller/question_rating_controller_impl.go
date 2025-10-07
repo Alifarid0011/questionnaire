@@ -19,7 +19,7 @@ func NewQuestionRatingController(s service.QuestionRatingService) QuestionRating
 // CreateRating godoc
 // @Summary Create a new question rating
 // @Description Allows a user to rate a question from 1 to 5
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Accept json
 // @Produce json
 // @Security AuthBearer
@@ -45,7 +45,7 @@ func (qc *questionRatingControllerImpl) CreateRating(c *gin.Context) {
 // UpdateRating godoc
 // @Summary Update an existing question rating
 // @Description Update the score of a previously submitted rating
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Accept json
 // @Produce json
 // @Security AuthBearer
@@ -71,7 +71,7 @@ func (qc *questionRatingControllerImpl) UpdateRating(c *gin.Context) {
 // GetRatingByID godoc
 // @Summary Get a question rating by ID
 // @Description Retrieve a specific rating by its ID
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Produce json
 // @Security AuthBearer
 // @Param id path string true "Rating ID"
@@ -98,7 +98,7 @@ func (qc *questionRatingControllerImpl) GetRatingByID(c *gin.Context) {
 // GetRatingsByQuestionID godoc
 // @Summary Get all ratings for a question
 // @Description Retrieve all ratings submitted for a specific question
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Security AuthBearer
 // @Produce json
 // @Param question_id path string true "Question ID"
@@ -124,7 +124,7 @@ func (qc *questionRatingControllerImpl) GetRatingsByQuestionID(c *gin.Context) {
 // GetRatingsByUserID godoc
 // @Summary Get all ratings by a user
 // @Description Retrieve all question ratings submitted by a specific user
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Security AuthBearer
 // @Produce json
 // @Param user_id path string true "User ID"
@@ -150,7 +150,7 @@ func (qc *questionRatingControllerImpl) GetRatingsByUserID(c *gin.Context) {
 // GetRatingByQuestionAndUser godoc
 // @Summary Get a user's rating for a specific question
 // @Description Retrieve the rating submitted by a specific user for a specific question
-// @Tags QuestionRatings
+// @Tags QuestionsRatings
 // @Security AuthBearer
 // @Produce json
 // @Param question_id path string true "Question ID"
