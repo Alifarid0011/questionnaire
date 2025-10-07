@@ -6,4 +6,5 @@ const (
 	UserCollection           = "users"
 	BlackListTokenCollection = "black_list_tokens"
 	QuizCollection           = "quizzes"
+	CommentCollection        = "comments"
 )

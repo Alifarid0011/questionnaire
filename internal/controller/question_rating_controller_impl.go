@@ -99,6 +99,7 @@ func (qc *questionRatingControllerImpl) GetRatingByID(c *gin.Context) {
 // @Summary Get all ratings for a question
 // @Description Retrieve all ratings submitted for a specific question
 // @Tags QuestionRatings
+// @Security AuthBearer
 // @Produce json
 // @Param question_id path string true "Question ID"
 // @Success 200 {array} dto.QuestionRatingDTO
@@ -124,6 +125,7 @@ func (qc *questionRatingControllerImpl) GetRatingsByQuestionID(c *gin.Context) {
 // @Summary Get all ratings by a user
 // @Description Retrieve all question ratings submitted by a specific user
 // @Tags QuestionRatings
+// @Security AuthBearer
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {array} dto.QuestionRatingDTO
@@ -149,6 +151,7 @@ func (qc *questionRatingControllerImpl) GetRatingsByUserID(c *gin.Context) {
 // @Summary Get a user's rating for a specific question
 // @Description Retrieve the rating submitted by a specific user for a specific question
 // @Tags QuestionRatings
+// @Security AuthBearer
 // @Produce json
 // @Param question_id path string true "Question ID"
 // @Param user_id path string true "User ID"

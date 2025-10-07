@@ -47,7 +47,7 @@ func (s *userAnswerServiceImpl) CreateUserAnswer(ctx context.Context, input *dto
 	answer := &models.UserAnswer{
 		ID:        primitive.NewObjectID(),
 		QuizID:    input.QuizID,
-		UserID:    input.UserID,
+		UserID:    ctx.Value("user_uid").(primitive.ObjectID),
 		Answers:   toModelAnswers(input.Answers),
 		Score:     0,
 		Appeal:    false,
@@ -59,8 +59,9 @@ func (s *userAnswerServiceImpl) CreateUserAnswer(ctx context.Context, input *dto
 	}
 
 	return &dto.UserAnswerDTO{
+		ID:      answer.ID,
 		QuizID:  answer.QuizID,
-		UserID:  answer.UserID,
+		UserID:  &answer.UserID,
 		Answers: toDTOAnswers(answer.Answers),
 	}, nil
 }
@@ -72,8 +73,9 @@ func (s *userAnswerServiceImpl) GetUserAnswerByID(ctx context.Context, id primit
 	}
 
 	return &dto.UserAnswerDTO{
+		ID:      answer.ID,
 		QuizID:  answer.QuizID,
-		UserID:  answer.UserID,
+		UserID:  &answer.UserID,
 		Answers: toDTOAnswers(answer.Answers),
 	}, nil
 }
@@ -87,8 +89,9 @@ func (s *userAnswerServiceImpl) GetUserAnswersByQuizID(ctx context.Context, quiz
 	result := make([]*dto.UserAnswerDTO, len(answers))
 	for i, ans := range answers {
 		result[i] = &dto.UserAnswerDTO{
+			ID:      ans.ID,
 			QuizID:  ans.QuizID,
-			UserID:  ans.UserID,
+			UserID:  &ans.UserID,
 			Answers: toDTOAnswers(ans.Answers),
 		}
 	}
@@ -104,8 +107,9 @@ func (s *userAnswerServiceImpl) GetUserAnswersByUserID(ctx context.Context, user
 	result := make([]*dto.UserAnswerDTO, len(answers))
 	for i, ans := range answers {
 		result[i] = &dto.UserAnswerDTO{
+			ID:      ans.ID,
 			QuizID:  ans.QuizID,
-			UserID:  ans.UserID,
+			UserID:  &ans.UserID,
 			Answers: toDTOAnswers(ans.Answers),
 		}
 	}
@@ -121,8 +125,9 @@ func (s *userAnswerServiceImpl) GetUserAnswersByQuizAndUser(ctx context.Context,
 	result := make([]*dto.UserAnswerDTO, len(answers))
 	for i, ans := range answers {
 		result[i] = &dto.UserAnswerDTO{
+			ID:      ans.ID,
 			QuizID:  ans.QuizID,
-			UserID:  ans.UserID,
+			UserID:  &ans.UserID,
 			Answers: toDTOAnswers(ans.Answers),
 		}
 	}

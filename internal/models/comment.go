@@ -11,6 +11,6 @@ type Comment struct {
 	UserID    primitive.ObjectID  `bson:"user_id" json:"user_id"`
 	Text      string              `bson:"text" json:"text"`
 	ParentID  *primitive.ObjectID `bson:"parent_id,omitempty" json:"parent_id,omitempty"`
-	CreatedAt time.Time           `bson:"created_at" json:"created_at"`
+	CreatedAt *time.Time          `bson:"created_at" json:"created_at,omitempty"`
 	UpdatedAt time.Time           `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }

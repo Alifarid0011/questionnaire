@@ -16,9 +16,9 @@ type UserAnswer struct {
 }
 
 type Answer struct {
-	QuestionID string   `bson:"question_id" json:"question_id"`
-	Response   []string `bson:"response" json:"response"` // generic: short answer = [text], radio = [choice], checkbox = [choices]
-	Score      float64  `bson:"score" json:"score"`
-	IsCorrect  bool     `bson:"is_correct" json:"is_correct"`
-	Comment    string   `bson:"comment,omitempty" json:"comment,omitempty"`
+	QuestionID primitive.ObjectID `bson:"question_id" json:"question_id"`
+	Response   []string           `bson:"response" json:"response"` // generic: short answer = [text], radio = [choice], checkbox = [choices]
+	Score      float64            `bson:"score" json:"score"`
+	IsCorrect  bool               `bson:"is_correct" json:"is_correct"`
+	Comment    string             `bson:"comment,omitempty" json:"comment,omitempty"`
 }

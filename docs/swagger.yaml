@@ -33,6 +33,18 @@ definitions:
     - obj
     - sub
     type: object
+  dto.CommentDto:
+    properties:
+      entity_id:
+        description: polymorphic reference
+        type: string
+      entity_type:
+        type: string
+      parent_id:
+        type: string
+      text:
+        type: string
+    type: object
   dto.CreateUserRequest:
     properties:
       email:
@@ -84,8 +96,6 @@ definitions:
         items:
           type: string
         type: array
-      id:
-        type: string
       key_words:
         items:
           type: string
@@ -103,7 +113,6 @@ definitions:
         - radio
         type: string
     required:
-    - id
     - label
     - type
     type: object
@@ -142,14 +151,11 @@ definitions:
         type: array
       title:
         type: string
-      user_id:
-        type: string
     required:
     - category
     - level
     - questions
     - title
-    - user_id
     type: object
   dto.RefreshRequest:
     properties:
@@ -197,6 +203,8 @@ definitions:
         items:
           $ref: '#/definitions/dto.AnswerDTO'
         type: array
+      id:
+        type: string
       quiz_id:
         type: string
       user_id:
@@ -204,7 +212,6 @@ definitions:
     required:
     - answers
     - quiz_id
-    - user_id
     type: object
   dto.UserResponse:
     properties:
@@ -239,40 +246,6 @@ definitions:
         type: array
       score:
         type: number
-    type: object
-  models.Comment:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: string
-      parent_id:
-        type: string
-      target:
-        allOf:
-        - $ref: '#/definitions/models.DBRef'
-        description: polymorphic reference
-      text:
-        type: string
-      updated_at:
-        type: string
-      user_id:
-        type: string
-    type: object
-  models.DBRef:
-    properties:
-      $db:
-        description: Optional DB name
-        type: string
-      $id:
-        description: Document ID
-        type: string
-      $ref:
-        description: Collection name
-        type: string
-    required:
-    - $id
-    - $ref
     type: object
   models.UserAnswer:
     properties:
@@ -332,13 +305,6 @@ paths:
       - application/json
       description: Checks whether the user is allowed to perform a specific action
         on a resource.
-      parameters:
-      - description: Permission check information
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CheckPermissionDTO'
       produces:
       - application/json
       responses:
@@ -686,7 +652,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.Comment'
+          $ref: '#/definitions/dto.CommentDto'
       produces:
       - application/json
       responses:
@@ -698,6 +664,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Create a new comment
       tags:
       - Comments
@@ -711,7 +679,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.Comment'
+          $ref: '#/definitions/dto.CommentDto'
       produces:
       - application/json
       responses:
@@ -723,6 +691,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Update a comment
       tags:
       - Comments
@@ -746,6 +716,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get comment by ID
       tags:
       - Comments
@@ -769,6 +741,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get replies for a comment
       tags:
       - Comments
@@ -797,6 +771,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get comments by target
       tags:
       - Comments
@@ -820,6 +796,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get comments by user
       tags:
       - Comments
@@ -854,6 +832,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Automatically grade a user answer
       tags:
       - Grading
@@ -890,6 +870,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Set appeal flag for a user answer
       tags:
       - Grading
@@ -924,6 +906,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Override score for a specific question
       tags:
       - Grading
@@ -939,6 +923,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get all quizzes
       tags:
       - quizzes
@@ -964,6 +950,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Create a new quiz
       tags:
       - quizzes
@@ -989,6 +977,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Update an existing quiz
       tags:
       - quizzes
@@ -1010,6 +1000,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Delete a quiz
       tags:
       - quizzes
@@ -1030,6 +1022,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get quiz by ID
       tags:
       - quizzes
@@ -1045,6 +1039,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get quiz categories
       tags:
       - quizzes
@@ -1060,6 +1056,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get quiz count by category
       tags:
       - quizzes
@@ -1081,6 +1079,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get quizzes by category
       tags:
       - quizzes
@@ -1112,6 +1112,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Create a new question rating
       tags:
       - QuestionRatings
@@ -1142,6 +1144,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Update an existing question rating
       tags:
       - QuestionRatings
@@ -1174,6 +1178,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get a question rating by ID
       tags:
       - QuestionRatings
@@ -1199,6 +1205,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get all ratings for a question
       tags:
       - QuestionRatings
@@ -1232,6 +1240,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get a user's rating for a specific question
       tags:
       - QuestionRatings
@@ -1257,6 +1267,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get all ratings by a user
       tags:
       - QuestionRatings
@@ -1309,6 +1321,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Create a new user answer
       tags:
       - UserAnswers
@@ -1341,6 +1355,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get user answer by ID
       tags:
       - UserAnswers
@@ -1375,6 +1391,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get all user answers for a quiz
       tags:
       - UserAnswers
@@ -1414,6 +1432,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get user answers for a quiz and user
       tags:
       - UserAnswers
@@ -1448,6 +1468,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - AuthBearer: []
       summary: Get all user answers for a user
       tags:
       - UserAnswers
