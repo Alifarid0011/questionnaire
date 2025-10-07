@@ -72,7 +72,7 @@ func (g *GradingServiceImpl) GradeUserAnswer(ctx context.Context, ua *models.Use
 }
 
 // ManualGrading allows a grader to override the score of a specific answer
-func (g *GradingServiceImpl) ManualGrading(ctx context.Context, uaID primitive.ObjectID, questionID string, newScore float64) error {
+func (g *GradingServiceImpl) ManualGrading(ctx context.Context, uaID primitive.ObjectID, questionID primitive.ObjectID, newScore float64) error {
 	ua, err := g.userAnswerRepo.UserAnswerFindByID(ctx, uaID)
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func (g *GradingServiceImpl) GradeUserAnswerByID(ctx context.Context, uaID primi
 	return ua, nil
 }
 
-func (g *GradingServiceImpl) ManualGradingByID(ctx context.Context, uaID primitive.ObjectID, questionID string, newScore float64) (*models.UserAnswer, error) {
+func (g *GradingServiceImpl) ManualGradingByID(ctx context.Context, uaID primitive.ObjectID, questionID primitive.ObjectID, newScore float64) (*models.UserAnswer, error) {
 	if err := g.ManualGrading(ctx, uaID, questionID, newScore); err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (g *GradingServiceImpl) SetAppeal(ctx context.Context, uaID primitive.Objec
 }
 
 // helper
-func findQuestionByID(questions []models.Question, id string) *models.Question {
+func findQuestionByID(questions []models.Question, id primitive.ObjectID) *models.Question {
 	for _, q := range questions {
 		if q.ID == id {
 			return &q

@@ -24,7 +24,6 @@ func NewACLController(srv service.CasbinService) *ACLController {
 // @Security AuthBearer
 // @Accept json
 // @Produce json
-// @Param request body dto.CheckPermissionDTO true "Permission check information"
 // @Success 200 {object} response.Response
 // @Failure 400,500 {object} response.Response
 // @Router /acl/check [get]

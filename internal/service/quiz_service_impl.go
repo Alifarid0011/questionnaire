@@ -19,10 +19,10 @@ func NewQuizService(repo repository.QuizRepository) QuizService {
 func (s *quizServiceImpl) Create(ctx context.Context, req dto.QuizDTO) (*dto.QuizDTO, error) {
 	quiz := &models.Quiz{
 		ID:        primitive.NewObjectID(),
+		UserID:    ctx.Value("user_uid").(primitive.ObjectID),
 		Title:     req.Title,
 		Category:  req.Category,
 		Level:     req.Level,
-		UserID:    req.UserID,
 		Questions: mapQuestionsDTOToModel(req.Questions),
 	}
 	if err := s.repo.QuizCreate(ctx, quiz); err != nil {
@@ -94,7 +94,7 @@ func mapQuestionsDTOToModel(dtos []dto.QuestionDTO) []models.Question {
 	questions := make([]models.Question, len(dtos))
 	for i, q := range dtos {
 		questions[i] = models.Question{
-			ID:            q.ID,
+			ID:            primitive.NewObjectID(),
 			Type:          q.Type,
 			Label:         q.Label,
 			Options:       q.Options,
@@ -118,10 +118,11 @@ func mapQuizModelToDTO(q *models.Quiz) *dto.QuizDTO {
 		}
 	}
 	return &dto.QuizDTO{
+		ID:        q.ID,
 		Title:     q.Title,
 		Category:  q.Category,
 		Level:     q.Level,
-		UserID:    q.UserID,
+		UserID:    &q.UserID,
 		Questions: questions,
 		CreatedAt: q.CreatedAt,
 	}

@@ -67,8 +67,8 @@ func (uc *UserAnswerGradingControllerImpl) ManualGrading(c *gin.Context) {
 	}
 
 	var body struct {
-		QuestionID string  `json:"question_id"`
-		NewScore   float64 `json:"new_score"`
+		QuestionID primitive.ObjectID `json:"question_id"`
+		NewScore   float64            `json:"new_score"`
 	}
 	if err := c.ShouldBindJSON(&body); err != nil {
 		response.New(c).Errors(err).Dispatch()

@@ -2,12 +2,12 @@ package repository
 
 import (
 	"context"
+	"github.com/Alifarid0011/questionnaire-back-end/constant"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 type commentRepositoryImpl struct {
@@ -17,20 +17,18 @@ type commentRepositoryImpl struct {
 // NewCommentRepository creates a new comment repository
 func NewCommentRepository(db *mongo.Database) CommentRepository {
 	return &commentRepositoryImpl{
-		collection: db.Collection("comments"),
+		collection: db.Collection(constant.CommentCollection),
 	}
 }
 
 // Create inserts a new comment
 func (r *commentRepositoryImpl) Create(ctx context.Context, comment *models.Comment) error {
-	comment.CreatedAt = time.Now()
 	_, err := r.collection.InsertOne(ctx, comment)
 	return err
 }
 
 // Update modifies an existing comment
 func (r *commentRepositoryImpl) Update(ctx context.Context, comment *models.Comment) error {
-	comment.UpdatedAt = time.Now()
 	_, err := r.collection.UpdateOne(ctx, bson.M{"_id": comment.ID}, bson.M{"$set": comment})
 	return err
 }

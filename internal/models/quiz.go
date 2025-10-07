@@ -6,7 +6,7 @@ import (
 )
 
 type Quiz struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	Title     string             `bson:"title" json:"title"`
 	Category  string             `bson:"category" json:"category"`
 	UserID    primitive.ObjectID `bson:"user_id" json:"user_id"`
@@ -16,10 +16,10 @@ type Quiz struct {
 }
 
 type Question struct {
-	ID            string   `bson:"id" json:"id"`
-	Type          string   `bson:"type" json:"type"` // short, checkbox, radio
-	Label         string   `bson:"label" json:"label"`
-	Options       []string `bson:"options" json:"options"`
-	CorrectAnswer []string `bson:"correct_answer" json:"correct_answer"`
-	KeyWords      []string `json:"key_words" bson:"key_words"`
+	ID            primitive.ObjectID `bson:"id" json:"id"`
+	Type          string             `bson:"type" json:"type"` // short, checkbox, radio
+	Label         string             `bson:"label" json:"label"`
+	Options       []string           `bson:"options" json:"options"`
+	CorrectAnswer []string           `bson:"correct_answer" json:"correct_answer"`
+	KeyWords      []string           `json:"key_words" bson:"key_words"`
 }

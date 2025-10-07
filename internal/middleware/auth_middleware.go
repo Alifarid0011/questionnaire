@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"context"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/dto/response"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/repository"
 	"github.com/Alifarid0011/questionnaire-back-end/utils"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
@@ -28,6 +30,10 @@ func AuthMiddleware(blackRepo repository.BlackListTokenRepository, tokenManager 
 		}
 		c.Set("claims", token)
 		c.Set("user_uid", token.UID)
+		ctx := c.Request.Context()
+		userUid, err := primitive.ObjectIDFromHex(token.UID)
+		ctx = context.WithValue(ctx, "user_uid", userUid)
+		c.Request = c.Request.WithContext(ctx)
 		c.Set("access_token", tokenString)
 		c.Next()
 	}

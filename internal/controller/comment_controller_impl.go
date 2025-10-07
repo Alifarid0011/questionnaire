@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"github.com/Alifarid0011/questionnaire-back-end/config"
+	"github.com/Alifarid0011/questionnaire-back-end/internal/dto"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/dto/response"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/models"
 	"github.com/Alifarid0011/questionnaire-back-end/internal/service"
@@ -23,12 +25,12 @@ func NewCommentController(s service.CommentService) *CommentControllerImpl {
 // @Accept json
 // @Produce json
 // @Security AuthBearer
-// @Param comment body models.Comment true "Comment data"
+// @Param comment body dto.CommentDto true "Comment data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /comments [post]
 func (cc *CommentControllerImpl) CreateComment(c *gin.Context) {
-	var input models.Comment
+	var input dto.CommentDto
 	if err := c.ShouldBindJSON(&input); err != nil {
 		response.New(c).Errors(err).Dispatch()
 		return
@@ -48,12 +50,12 @@ func (cc *CommentControllerImpl) CreateComment(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security AuthBearer
-// @Param comment body models.Comment true "Updated comment data"
+// @Param comment body dto.CommentDto true "Updated comment data"
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /comments [put]
 func (cc *CommentControllerImpl) UpdateComment(c *gin.Context) {
-	var input models.Comment
+	var input dto.CommentDto
 	if err := c.ShouldBindJSON(&input); err != nil {
 		response.New(c).Errors(err).Dispatch()
 		return
@@ -95,6 +97,7 @@ func (cc *CommentControllerImpl) GetCommentByID(c *gin.Context) {
 // @Summary Get comments by target
 // @Description Returns all comments for a polymorphic target
 // @Tags Comments
+// @Security AuthBearer
 // @Produce json
 // @Param ref query string true "Target collection"
 // @Param id query string true "Target document ID"
@@ -112,6 +115,7 @@ func (cc *CommentControllerImpl) GetCommentsByTarget(c *gin.Context) {
 	target := models.DBRef{
 		Ref: ref,
 		ID:  id,
+		DB:  config.Get.Mongo.DbName,
 	}
 	comments, err := cc.service.GetCommentsByTarget(c.Request.Context(), target)
 	if err != nil {
@@ -125,6 +129,7 @@ func (cc *CommentControllerImpl) GetCommentsByTarget(c *gin.Context) {
 // @Summary Get replies for a comment
 // @Description Returns all replies for a given parent comment
 // @Tags Comments
+// @Security AuthBearer
 // @Produce json
 // @Param parent_id path string true "Parent comment ID"
 // @Success 200 {object} response.Response
@@ -149,6 +154,7 @@ func (cc *CommentControllerImpl) GetReplies(c *gin.Context) {
 // @Summary Get comments by user
 // @Description Returns all comments created by a specific user
 // @Tags Comments
+// @Security AuthBearer
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} response.Response

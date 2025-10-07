@@ -5,12 +5,13 @@ import (
 )
 
 type UserAnswerDTO struct {
-	QuizID  primitive.ObjectID `json:"quiz_id" binding:"required"`
-	UserID  primitive.ObjectID `json:"user_id" binding:"required"`
-	Answers []AnswerDTO        `json:"answers" binding:"required"`
+	ID      primitive.ObjectID  `bson:"_id,omitempty" json:"id" `
+	QuizID  primitive.ObjectID  `json:"quiz_id" binding:"required"`
+	UserID  *primitive.ObjectID `json:"user_id"`
+	Answers []AnswerDTO         `json:"answers" binding:"required"`
 }
 
 type AnswerDTO struct {
-	QuestionID string   `json:"question_id" binding:"required"`
-	Response   []string `json:"response" binding:"required"`
+	QuestionID primitive.ObjectID `json:"question_id" binding:"required"`
+	Response   []string           `json:"response" binding:"required"`
 }

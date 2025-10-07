@@ -33,17 +33,6 @@ const docTemplate = `{
                     "ACL"
                 ],
                 "summary": "Check Permission",
-                "parameters": [
-                    {
-                        "description": "Permission check information",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.CheckPermissionDTO"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -564,6 +553,11 @@ const docTemplate = `{
         },
         "/comments": {
             "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Updates an existing comment by ID",
                 "consumes": [
                     "application/json"
@@ -582,7 +576,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Comment"
+                            "$ref": "#/definitions/dto.CommentDto"
                         }
                     }
                 ],
@@ -602,6 +596,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Adds a new comment to a target",
                 "consumes": [
                     "application/json"
@@ -620,7 +619,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Comment"
+                            "$ref": "#/definitions/dto.CommentDto"
                         }
                     }
                 ],
@@ -642,6 +641,11 @@ const docTemplate = `{
         },
         "/comments/target": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all comments for a polymorphic target",
                 "produces": [
                     "application/json"
@@ -684,6 +688,11 @@ const docTemplate = `{
         },
         "/comments/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all comments created by a specific user",
                 "produces": [
                     "application/json"
@@ -719,6 +728,11 @@ const docTemplate = `{
         },
         "/comments/{id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns a comment by its ID",
                 "produces": [
                     "application/json"
@@ -754,6 +768,11 @@ const docTemplate = `{
         },
         "/comments/{parent_id}/replies": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all replies for a given parent comment",
                 "produces": [
                     "application/json"
@@ -789,6 +808,11 @@ const docTemplate = `{
         },
         "/grading/user-answer/{id}": {
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Grade all questions in a user answer using automatic grading",
                 "consumes": [
                     "application/json"
@@ -845,6 +869,11 @@ const docTemplate = `{
         },
         "/grading/user-answer/{id}/appeal": {
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Allows a user to mark their answer as appealed for manual review",
                 "consumes": [
                     "application/json"
@@ -904,6 +933,11 @@ const docTemplate = `{
         },
         "/grading/user-answer/{id}/manual": {
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Allows a grader to manually change the score of a single question",
                 "consumes": [
                     "application/json"
@@ -960,6 +994,11 @@ const docTemplate = `{
         },
         "/quizzes": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all quizzes",
                 "tags": [
                     "quizzes"
@@ -981,6 +1020,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Updates quiz details by ID",
                 "consumes": [
                     "application/json"
@@ -1019,6 +1063,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Creates a new quiz with questions",
                 "consumes": [
                     "application/json"
@@ -1059,6 +1108,11 @@ const docTemplate = `{
         },
         "/quizzes/categories": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all available quiz categories",
                 "tags": [
                     "quizzes"
@@ -1082,6 +1136,11 @@ const docTemplate = `{
         },
         "/quizzes/categories/count": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns number of quizzes in each category",
                 "tags": [
                     "quizzes"
@@ -1105,6 +1164,11 @@ const docTemplate = `{
         },
         "/quizzes/category": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns all quizzes for a given category",
                 "tags": [
                     "quizzes"
@@ -1137,6 +1201,11 @@ const docTemplate = `{
         },
         "/quizzes/{id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Returns a single quiz by ID",
                 "tags": [
                     "quizzes"
@@ -1167,6 +1236,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Deletes a quiz by ID",
                 "tags": [
                     "quizzes"
@@ -1199,6 +1273,11 @@ const docTemplate = `{
         },
         "/ratings": {
             "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Update the score of a previously submitted rating",
                 "consumes": [
                     "application/json"
@@ -1249,6 +1328,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Allows a user to rate a question from 1 to 5",
                 "consumes": [
                     "application/json"
@@ -1301,6 +1385,11 @@ const docTemplate = `{
         },
         "/ratings/question/{question_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve all ratings submitted for a specific question",
                 "produces": [
                     "application/json"
@@ -1339,6 +1428,11 @@ const docTemplate = `{
         },
         "/ratings/question/{question_id}/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve the rating submitted by a specific user for a specific question",
                 "produces": [
                     "application/json"
@@ -1387,6 +1481,11 @@ const docTemplate = `{
         },
         "/ratings/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve all question ratings submitted by a specific user",
                 "produces": [
                     "application/json"
@@ -1425,6 +1524,11 @@ const docTemplate = `{
         },
         "/ratings/{id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve a specific rating by its ID",
                 "produces": [
                     "application/json"
@@ -1505,6 +1609,11 @@ const docTemplate = `{
         },
         "/user-answers": {
             "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Create and store a user answer for a quiz",
                 "consumes": [
                     "application/json"
@@ -1563,6 +1672,11 @@ const docTemplate = `{
         },
         "/user-answers/quiz/{quiz_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve all user answers for a specific quiz",
                 "produces": [
                     "application/json"
@@ -1619,6 +1733,11 @@ const docTemplate = `{
         },
         "/user-answers/quiz/{quiz_id}/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve answers submitted by a specific user for a specific quiz",
                 "produces": [
                     "application/json"
@@ -1682,6 +1801,11 @@ const docTemplate = `{
         },
         "/user-answers/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve all user answers submitted by a specific user",
                 "produces": [
                     "application/json"
@@ -1738,6 +1862,11 @@ const docTemplate = `{
         },
         "/user-answers/{id}": {
             "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
                 "description": "Retrieve a user answer using its ID",
                 "produces": [
                     "application/json"
@@ -2113,6 +2242,24 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CommentDto": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "description": "polymorphic reference",
+                    "type": "string"
+                },
+                "entity_type": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateUserRequest": {
             "type": "object",
             "required": [
@@ -2180,7 +2327,6 @@ const docTemplate = `{
         "dto.QuestionDTO": {
             "type": "object",
             "required": [
-                "id",
                 "label",
                 "type"
             ],
@@ -2190,9 +2336,6 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
-                },
-                "id": {
-                    "type": "string"
                 },
                 "key_words": {
                     "type": "array",
@@ -2254,8 +2397,7 @@ const docTemplate = `{
                 "category",
                 "level",
                 "questions",
-                "title",
-                "user_id"
+                "title"
             ],
             "properties": {
                 "category": {
@@ -2274,9 +2416,6 @@ const docTemplate = `{
                     }
                 },
                 "title": {
-                    "type": "string"
-                },
-                "user_id": {
                     "type": "string"
                 }
             }
@@ -2346,8 +2485,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "answers",
-                "quiz_id",
-                "user_id"
+                "quiz_id"
             ],
             "properties": {
                 "answers": {
@@ -2355,6 +2493,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/dto.AnswerDTO"
                     }
+                },
+                "id": {
+                    "type": "string"
                 },
                 "quiz_id": {
                     "type": "string"
@@ -2411,58 +2552,6 @@ const docTemplate = `{
                 },
                 "score": {
                     "type": "number"
-                }
-            }
-        },
-        "models.Comment": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "target": {
-                    "description": "polymorphic reference",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.DBRef"
-                        }
-                    ]
-                },
-                "text": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.DBRef": {
-            "type": "object",
-            "required": [
-                "$id",
-                "$ref"
-            ],
-            "properties": {
-                "$db": {
-                    "description": "Optional DB name",
-                    "type": "string"
-                },
-                "$id": {
-                    "description": "Document ID",
-                    "type": "string"
-                },
-                "$ref": {
-                    "description": "Collection name",
-                    "type": "string"
                 }
             }
         },
